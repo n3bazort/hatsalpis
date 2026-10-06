@@ -1,15 +1,15 @@
 :root {
-  --paper: #f7f3eb;
-  --wine: #6d2935;
-  --wine-deep: #58202c;
-  --ink: #543b32;
-  --muted: #766354;
-  --line: rgba(109, 41, 53, 0.2);
-  --gold: #cb8e55;
+  --paper: #f6f3ec;
+  --cocoa: #4d2819;
+  --cocoa-deep: #3d2014;
+  --ink: #4d2819;
+  --muted: #875832;
+  --line: rgba(77, 40, 25, 0.2);
+  --ochre: #9b6f3e;
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "DM Sans", sans-serif;
   font-family: var(--sans);
-  color: var(--wine);
+  color: var(--cocoa);
   background: var(--paper);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -54,7 +54,7 @@ button:disabled {
 button:focus-visible,
 a:focus-visible,
 input:focus-visible {
-  outline: 2px solid var(--wine);
+  outline: 2px solid var(--cocoa);
   outline-offset: 6px;
 }
 button,
@@ -78,7 +78,7 @@ a svg {
   flex-shrink: 0;
 }
 ::selection {
-  background: var(--wine);
+  background: var(--cocoa);
   color: var(--paper);
 }
 section {
@@ -110,14 +110,14 @@ em {
   transition: background 0.25s;
 }
 .icon-button:hover {
-  background: rgba(109, 41, 53, 0.07);
+  background: rgba(77, 40, 25, 0.07);
 }
 .text-link {
   display: inline-flex;
   gap: 28px;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid var(--wine);
+  border-bottom: 1px solid var(--cocoa);
   font-size: 12px;
 }
 .text-link svg {
@@ -134,7 +134,7 @@ em {
   padding: 20px 26px;
   min-height: 56px;
   font-size: 12px;
-  border: 1px solid var(--wine);
+  border: 1px solid var(--cocoa);
   transition:
     background 0.25s,
     transform 0.25s;
@@ -144,17 +144,17 @@ em {
 }
 .button-solid {
   color: var(--paper);
-  background: var(--wine);
+  background: var(--cocoa);
 }
 .button-solid:hover {
-  background: var(--wine-deep);
+  background: var(--cocoa-deep);
 }
 .skip-link {
   position: fixed;
   top: 10px;
   left: 10px;
   z-index: 100;
-  background: var(--wine);
+  background: var(--cocoa);
   color: var(--paper);
   padding: 14px;
   transform: translateY(-150%);
@@ -257,7 +257,7 @@ em {
 .title-dash {
   width: 58px;
   height: 1px;
-  background: var(--wine);
+  background: var(--cocoa);
   display: block;
 }
 .hero-product {
@@ -273,6 +273,10 @@ em {
   width: 100%;
   filter: drop-shadow(0 26px 20px rgba(85, 53, 28, 0.11));
   transform: rotate(-5deg);
+}
+.hero-product-float {
+  width: 100%;
+  will-change: transform;
 }
 .hero-product svg {
   width: 100%;
@@ -299,7 +303,7 @@ em {
 .mini-star {
   font-family: var(--serif);
   font-size: 36px;
-  color: var(--wine);
+  color: var(--cocoa);
   display: block;
   line-height: 1;
   margin-bottom: 16px;
@@ -316,7 +320,7 @@ em {
 .handmade-seal {
   width: 106px;
   margin: auto;
-  color: var(--wine);
+  color: var(--cocoa);
 }
 .handmade-seal text {
   font-size: 9px;
@@ -342,7 +346,7 @@ em {
 }
 .corner-note b {
   font-weight: 400;
-  color: var(--wine);
+  color: var(--cocoa);
 }
 .align-right {
   text-align: right;
@@ -353,7 +357,7 @@ em {
   align-items: center;
   font-size: 10px;
   letter-spacing: 1.5px;
-  border-bottom: 1px solid var(--wine);
+  border-bottom: 1px solid var(--cocoa);
   padding-bottom: 14px;
   margin-bottom: 2px;
 }
@@ -403,7 +407,7 @@ em {
   margin: 23px 0;
 }
 .craft-intro h2 em {
-  color: #a17955;
+  color: #875832;
 }
 .craft-intro p {
   font-size: 12px;
@@ -482,7 +486,7 @@ em {
   position: absolute;
   top: 26px;
   left: 26px;
-  color: var(--wine);
+  color: var(--cocoa);
 }
 .coastal-card {
   transform: rotate(4deg);
@@ -593,7 +597,7 @@ em {
     color 0.3s;
 }
 .product-card:hover .product-open {
-  background: var(--wine);
+  background: var(--cocoa);
   color: var(--paper);
 }
 .product-caption {
@@ -633,8 +637,8 @@ em {
 }
 .brand-panel {
   min-height: 100svh;
-  background: var(--wine-deep);
-  color: var(--gold);
+  background: var(--cocoa);
+  color: var(--paper);
   padding: 38px 5% 48px;
   display: flex;
   flex-direction: column;
@@ -647,10 +651,11 @@ em {
   justify-content: space-between;
   font-size: 8px;
   letter-spacing: 1.5px;
-  border-bottom: 1px solid #cb8e5540;
+  border-bottom: 1px solid #9b6f3e40;
   padding-bottom: 24px;
 }
 .panel-mark {
+  color: var(--ochre);
   width: 49px;
   height: 33px;
 }
@@ -680,7 +685,7 @@ em {
   display: flex;
   justify-content: space-between;
   gap: 45px;
-  border-top: 1px solid #cb8e5540;
+  border-top: 1px solid #9b6f3e40;
   padding-top: 34px;
 }
 .brand-panel-bottom > p {
@@ -714,7 +719,7 @@ em {
 }
 .brand-panel button:focus-visible,
 .brand-panel a:focus-visible {
-  outline-color: var(--gold);
+  outline-color: var(--ochre);
 }
 .carousel-section {
   height: 180svh;
@@ -745,10 +750,10 @@ em {
   left: 13%;
   width: 74%;
   height: 65%;
-  background: var(--wine);
+  background: var(--cocoa);
   border-radius: 50% 50% 0 0/85% 85% 0 0;
   overflow: hidden;
-  color: var(--gold);
+  color: var(--ochre);
 }
 .carousel-dome > svg {
   position: absolute;
@@ -760,9 +765,10 @@ em {
   font-family: var(--serif);
   font-size: 103px;
   letter-spacing: 7px;
-  fill: var(--gold);
+  fill: var(--ochre);
 }
 .carousel-dome > span {
+  color: var(--paper);
   position: absolute;
   left: 0;
   right: 0;
@@ -818,14 +824,14 @@ em {
   opacity: 0.65;
 }
 .carousel-controls .icon-button {
-  border-color: #f7f3eb60;
+  border-color: #f6f3ec60;
   flex-shrink: 0;
 }
 .carousel-controls button:focus-visible {
-  outline-color: var(--gold);
+  outline-color: var(--ochre);
 }
 .carousel-controls .icon-button:hover {
-  background: #f7f3eb18;
+  background: #f6f3ec18;
 }
 .carousel-dots {
   display: flex;
@@ -973,13 +979,13 @@ body:has(dialog[open]) {
   overflow: hidden;
 }
 dialog {
-  color: var(--wine);
+  color: var(--cocoa);
   background: var(--paper);
   border: 0;
   padding: 0;
 }
 dialog::backdrop {
-  background: #2a171bd4;
+  background: #301b12d4;
   backdrop-filter: blur(6px);
 }
 .dialog-close {
@@ -1058,7 +1064,7 @@ dialog::backdrop {
   cursor: pointer;
 }
 .size-picker label.selected {
-  background: var(--wine);
+  background: var(--cocoa);
   color: var(--paper);
 }
 .size-picker input {
@@ -1068,7 +1074,7 @@ dialog::backdrop {
   cursor: pointer;
 }
 .size-picker label:has(input:focus-visible) {
-  outline: 2px solid var(--wine);
+  outline: 2px solid var(--cocoa);
   outline-offset: 3px;
 }
 .dialog-details > .sizing-note {
@@ -1113,7 +1119,7 @@ dialog::backdrop {
 .care-list b {
   display: block;
   font-weight: 500;
-  color: var(--wine);
+  color: var(--cocoa);
 }
 .menu-dialog {
   max-width: none;
@@ -1122,7 +1128,7 @@ dialog::backdrop {
   height: 100svh;
   margin: 0;
   padding: 35px 8%;
-  background: var(--wine-deep);
+  background: var(--cocoa-deep);
   color: var(--paper);
 }
 .menu-top {
@@ -1130,10 +1136,10 @@ dialog::backdrop {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 30px;
-  border-bottom: 1px solid #f7f3eb33;
+  border-bottom: 1px solid #f6f3ec33;
 }
 .menu-top .icon-button {
-  border-color: #f7f3eb44;
+  border-color: #f6f3ec44;
 }
 .menu-dialog nav {
   margin: 5vh 0;
@@ -1148,7 +1154,7 @@ dialog::backdrop {
   transition: color 0.2s;
 }
 .menu-dialog nav a:hover {
-  color: var(--gold);
+  color: var(--ochre);
 }
 .menu-dialog nav a > span {
   font-family: var(--sans);
@@ -1165,7 +1171,7 @@ dialog::backdrop {
   display: flex;
   justify-content: space-between;
   gap: 24px;
-  border-top: 1px solid #f7f3eb33;
+  border-top: 1px solid #f6f3ec33;
   padding-top: 30px;
   font-size: 10px;
   letter-spacing: 1px;
@@ -1591,6 +1597,7 @@ dialog::backdrop {
     display: none;
   }
   .panel-mark {
+  color: var(--ochre);
     width: 41px;
     height: 30px;
   }
@@ -1910,6 +1917,7 @@ dialog::backdrop {
     scroll-behavior: auto !important;
   }
   .hero-product,
+  .hero-product-float,
   .editorial-strip,
   .collection-grid,
   .closing-hat {

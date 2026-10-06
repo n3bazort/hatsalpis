@@ -31,7 +31,7 @@ export const products: Product[] = [
       "Su ala amplia y su perfil delicado invitan a disfrutar los días al aire libre. Una interpretación relajada del sombrero artesanal ecuatoriano. Consulta las tallas, el tejido y la disponibilidad de cada pieza.",
     svgVariant: "wide-brim",
     color: "#e8d5ae",
-    ribbonColor: "#742c38",
+    ribbonColor: "#875832",
     tag: "ALMA LIBRE",
   },
   {
@@ -42,7 +42,7 @@ export const products: Product[] = [
       "Copa esculpida, fibra natural y una cinta de tono cálido. Un sombrero con presencia, pensado para encontrar su lugar en tu estilo. Consulta las tallas, el tejido y la disponibilidad de cada pieza.",
     svgVariant: "fedora",
     color: "#caa572",
-    ribbonColor: "#78513d",
+    ribbonColor: "#9b6f3e",
     tag: "CON CARÁCTER",
   },
   {

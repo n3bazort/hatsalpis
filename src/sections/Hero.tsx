@@ -66,11 +66,13 @@ export function Hero() {
       </div>
       <div className="hero-product">
         <div className="hero-product-inner">
-          <ProductVisual
-            variant="hero"
-            alt="Sombrero Montecristi ilustrado, de paja natural y cinta oscura"
-            className="hero-hat-svg"
-          />
+          <div className="hero-product-float">
+            <ProductVisual
+              variant="hero"
+              alt="Sombrero Montecristi ilustrado, de paja natural y cinta oscura"
+              className="hero-hat-svg"
+            />
+          </div>
         </div>
       </div>
       <div className="hero-side hero-side-right">

@@ -32,6 +32,27 @@ export function useScrollScenes() {
           duration: 1.5,
           ease: "power3.out",
         });
+        // Separate transforms let the subtle idle motion coexist with the
+        // entrance animation and the outer scroll-driven flight.
+        const idleFloat = gsap.to(".hero-product-float", {
+          x: 2,
+          y: -8,
+          rotation: 0.65,
+          duration: 4.5,
+          delay: 1.5,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+        ScrollTrigger.create({
+          trigger: ".hero",
+          start: "top bottom",
+          end: "bottom top",
+          onToggle: (self) => {
+            if (self.isActive) idleFloat.play();
+            else idleFloat.pause();
+          },
+        });
         gsap.to(".hero-product", {
           y: () => -window.innerHeight * 0.84,
           x: () => window.innerWidth * 0.04,

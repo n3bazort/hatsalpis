@@ -30,13 +30,13 @@ Las pruebas usan Chromium del sistema en `/usr/bin/chromium`. Si esa ruta no exi
 - `src/hooks/useScrollScenes.ts`: animaciones, sincronización por scroll y controles del carrusel.
 - `src/styles.css`: paleta, tipografía, composición y adaptación a pantallas pequeñas.
 
-La identidad utilizada es **Hats & Handicrafts — Montecristi, Ecuador**, según las imágenes de la marca. El contacto es **096 711 3954**, con formato internacional `+593967113954` para WhatsApp, y el dominio proporcionado es `hatsfalpis.com`.
+La identidad utilizada es **Hats & Handicrafts — Montecristi, Ecuador**, según las imágenes de la marca. La paleta de marca usa marfil `#f6f3ec`, ocre `#9b6f3e`, cacao `#4d2819` y marrón `#875832`. El contacto es **096 711 3954**, con formato internacional `+593967113954` para WhatsApp, y el dominio proporcionado es `hatsfalpis.com`.
 
 Las imágenes de los sombreros, escenas de artesanía y empaque son ilustraciones reemplazables; no representan un inventario o un empaque confirmado. Los modelos proceden del guion facilitado. Las consultas de precio, disponibilidad y talla se realizan por WhatsApp. No hay cobros ni órdenes automáticas.
 
 ## Comportamiento
 
-Seis escenas conectadas: portada con sombrero flotante, galería del oficio, colección con fichas, panel de marca, carrusel controlado por scroll y cierre de contacto. El carrusel también admite botones. Los diálogos utilizan las funciones nativas del navegador para el foco y la tecla Escape. Se respeta `prefers-reduced-motion`.
+Seis escenas conectadas: portada con sombrero flotante, galería del oficio, colección con fichas, panel de marca, carrusel controlado por scroll y cierre de contacto. El carrusel también admite botones. Los diálogos utilizan las funciones nativas del navegador para el foco y la tecla Escape. El sombrero del héroe flota suavemente incluso sin hacer scroll; ese vaivén se pausa fuera de pantalla y se desactiva con `prefers-reduced-motion`.
 
 Las fuentes Cormorant Garamond y DM Sans se sirven desde el propio proyecto; sus licencias están en `public/licenses/`. No se necesitan claves, cuentas externas, base de datos ni servicios adicionales para ejecutar la web.
 
