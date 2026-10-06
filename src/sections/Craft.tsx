@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { EditorialGallery } from "../components/EditorialGallery";
 import { ProductVisual } from "../components/ProductVisual";
 import type { InfoTopic } from "../components/Dialogs";
 
@@ -26,7 +27,7 @@ export function Craft({ onTopic }: { onTopic: (topic: InfoTopic) => void }) {
           continúa contigo.
         </p>
       </div>
-      <div className="editorial-strip">
+      <EditorialGallery>
         <figure className="editorial-card hands-card">
           <img
             src={`${import.meta.env.BASE_URL}images/weaving-hands.svg`}
@@ -81,7 +82,7 @@ export function Craft({ onTopic }: { onTopic: (topic: InfoTopic) => void }) {
             <span>05</span> CADA DETALLE CUENTA
           </figcaption>
         </figure>
-      </div>
+      </EditorialGallery>
       <div className="craft-bottom">
         <p>Desde Montecristi, con el valor de lo hecho a mano.</p>
         <button className="text-link" onClick={() => onTopic("materials")}>

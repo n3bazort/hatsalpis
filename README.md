@@ -36,7 +36,7 @@ Las imágenes de los sombreros, escenas de artesanía y empaque son ilustracione
 
 ## Comportamiento
 
-Seis escenas conectadas: portada con sombrero flotante, galería del oficio, colección con fichas, panel de marca, carrusel controlado por scroll y cierre de contacto. El carrusel también admite botones. Los diálogos utilizan las funciones nativas del navegador para el foco y la tecla Escape. El sombrero del héroe flota suavemente incluso sin hacer scroll; ese vaivén se pausa fuera de pantalla y se desactiva con `prefers-reduced-motion`.
+Seis escenas conectadas: portada con sombrero flotante, galería del oficio deslizable en móvil, colección con fichas, panel de marca, carrusel controlado por scroll y cierre de contacto. El carrusel también admite botones. Los diálogos utilizan las funciones nativas del navegador para el foco y la tecla Escape. El sombrero del héroe flota suavemente incluso sin hacer scroll; ese vaivén se pausa fuera de pantalla y se desactiva con `prefers-reduced-motion`.
 
 Las fuentes Cormorant Garamond y DM Sans se sirven desde el propio proyecto; sus licencias están en `public/licenses/`. No se necesitan claves, cuentas externas, base de datos ni servicios adicionales para ejecutar la web.
 

@@ -38,6 +38,7 @@ async function hatState(page: Page, index: number) {
 
 test("brand, assets, and layout work without horizontal overflow", async ({
   page,
+  isMobile,
 }) => {
   const runtimeErrors: string[] = [];
   page.on("pageerror", (error) => runtimeErrors.push(error.message));
@@ -70,6 +71,28 @@ test("brand, assets, and layout work without horizontal overflow", async ({
       )
       .toBeLessThanOrEqual(1);
   }
+  if (isMobile) {
+    // Off-screen slides are intentionally lazy-loaded: expose each one before
+    // checking that every editorial asset has successfully loaded.
+    for (const image of await page.locator(".editorial-card img").all()) {
+      await image.evaluate((element) =>
+        element.scrollIntoView({
+          block: "center",
+          inline: "center",
+          behavior: "instant",
+        }),
+      );
+      await expect
+        .poll(() =>
+          image.evaluate(
+            (element) =>
+              (element as HTMLImageElement).complete &&
+              (element as HTMLImageElement).naturalWidth > 0,
+          ),
+        )
+        .toBe(true);
+    }
+  }
   await expect
     .poll(() =>
       page
@@ -86,7 +109,9 @@ test("brand, assets, and layout work without horizontal overflow", async ({
     );
     await expect
       .poll(() =>
-        content.evaluate((element) => Number(getComputedStyle(element).opacity)),
+        content.evaluate((element) =>
+          Number(getComputedStyle(element).opacity),
+        ),
       )
       .toBeGreaterThanOrEqual(0.99);
   }
@@ -271,4 +296,78 @@ test("reduced motion preserves usable carousel and contact controls", async ({
       await expect(control).toBeInViewport({ ratio: 1 });
     }
   }
+});
+
+test("craft gallery makes every card reachable by touch and mobile controls", async ({
+  page,
+  isMobile,
+}) => {
+  await openSite(page);
+  const gallery = page.getByRole("region", { name: "Galería de El oficio" });
+  const cards = gallery.locator(".editorial-card");
+  const next = page.getByRole("button", {
+    name: "Siguiente imagen del oficio",
+  });
+  await expect(cards).toHaveCount(5);
+  if (!isMobile) {
+    await expect(next).not.toBeVisible();
+    await expect(gallery).toHaveCSS("overflow-x", "visible");
+    return;
+  }
+  await gallery.evaluate((el) =>
+    el.scrollIntoView({ block: "center", behavior: "instant" }),
+  );
+  await expect(cards.first()).toBeInViewport({ ratio: 1 });
+  await expect(page.locator(".editorial-counter")).toHaveText("01 / 05");
+
+  // Real touch input exercises browser-native swiping, rather than setting scrollLeft.
+  const touch = await page.context().newCDPSession(page);
+  const box = (await gallery.boundingBox())!;
+  const startX = box.x + box.width * 0.82;
+  const endX = box.x + box.width * 0.18;
+  const y = box.y + box.height / 2;
+  await touch.send("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x: startX, y }],
+  });
+  for (let step = 1; step <= 12; step++) {
+    await touch.send("Input.dispatchTouchEvent", {
+      type: "touchMove",
+      touchPoints: [{ x: startX + ((endX - startX) * step) / 12, y }],
+    });
+    await page.waitForTimeout(20);
+  }
+  await touch.send("Input.dispatchTouchEvent", {
+    type: "touchEnd",
+    touchPoints: [],
+  });
+  await expect
+    .poll(() => gallery.evaluate((el) => el.scrollLeft))
+    .toBeGreaterThan(150);
+  await touch.detach();
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await gallery.focus();
+  await page.keyboard.press("Home");
+  await expect(page.locator(".editorial-counter")).toHaveText("01 / 05");
+  for (let index = 1; index < 5; index++) {
+    await next.click();
+    await expect(page.locator(".editorial-counter")).toHaveText(
+      `0${index + 1} / 05`,
+    );
+    await expect(cards.nth(index)).toBeInViewport({ ratio: 1 });
+  }
+  await expect(next).toBeDisabled();
+  await expect(cards.last()).toContainText("CADA DETALLE CUENTA");
+  await gallery.focus();
+  await page.keyboard.press("Home");
+  await expect(cards.first()).toBeInViewport({ ratio: 1 });
+  await expect(
+    page.getByRole("button", { name: "Imagen anterior del oficio" }),
+  ).toBeDisabled();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    ),
+  ).toBeLessThanOrEqual(1);
 });

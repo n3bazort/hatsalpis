@@ -78,21 +78,6 @@ export function useScrollScenes() {
           },
         });
         gsap.fromTo(
-          ".editorial-strip",
-          { y: 110, x: 35 },
-          {
-            y: -65,
-            x: -35,
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".craft-section",
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1,
-            },
-          },
-        );
-        gsap.fromTo(
           ".collection-grid",
           { y: 90 },
           {
@@ -165,18 +150,38 @@ export function useScrollScenes() {
             scrub: 1,
           },
         });
-        gsap.utils
-          .toArray<HTMLElement>(".reveal")
-          .forEach((el) =>
-            gsap.from(el, {
-              y: 35,
-              opacity: 0,
-              duration: 0.9,
-              ease: "power2.out",
-              scrollTrigger: { trigger: el, start: "top 91%", once: true },
-            }),
-          );
+        gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) =>
+          gsap.from(el, {
+            y: 35,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power2.out",
+            scrollTrigger: { trigger: el, start: "top 91%", once: true },
+          }),
+        );
       });
+
+      // On mobile, native horizontal scrolling owns the gallery's position.
+      mm.add(
+        "(min-width: 701px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          gsap.fromTo(
+            ".editorial-strip",
+            { y: 110, x: 35 },
+            {
+              y: -65,
+              x: -35,
+              ease: "none",
+              scrollTrigger: {
+                trigger: ".craft-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1,
+              },
+            },
+          );
+        },
+      );
 
       const hats = gsap.utils.toArray<HTMLElement>(".carousel-hat");
       const renderOrbit = (progress: number) => {

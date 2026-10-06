@@ -415,6 +415,9 @@ em {
   color: var(--ink);
   margin-top: 27px;
 }
+.editorial-controls {
+  display: none;
+}
 .editorial-strip {
   display: flex;
   gap: 18px;
@@ -1447,41 +1450,70 @@ dialog::backdrop {
   .desktop-break {
     display: none;
   }
+  .editorial-gallery {
+    width: calc(100% + 12vw);
+    margin-inline: -6vw;
+    padding: 12px 6vw 16px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 6vw;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .editorial-gallery::-webkit-scrollbar {
+    display: none;
+  }
   .editorial-strip {
-    width: 270%;
-    margin-left: -85%;
-    gap: 13px;
+    width: max-content;
+    margin-left: 0;
+    gap: 14px;
+    will-change: opacity;
   }
   .editorial-card {
-    width: 20%;
-    height: 255px;
-  }
-  .center-card {
-    width: 26%;
-    height: 310px;
+    width: clamp(240px, 74vw, 360px);
+    height: clamp(300px, 92vw, 420px);
+    top: 0;
+    transform: none;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
   .editorial-card figcaption {
-    font-size: 5px;
-    gap: 9px;
-    padding: 25px 10px 12px;
+    font-size: 8px;
+    gap: 12px;
+    padding: 32px 16px 18px;
     letter-spacing: 0.8px;
   }
   .center-card-label {
-    font-size: 7px;
+    font-size: 8px;
     top: 22px;
     left: 22px;
   }
   .center-card > svg {
     top: 27%;
   }
-  .hands-card {
-    height: 230px;
+  .editorial-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 0 20px;
+    border-bottom: 1px solid var(--line);
   }
-  .weave-card {
-    height: 270px;
+  .editorial-swipe-hint {
+    font-size: 7px;
+    letter-spacing: 1px;
   }
-  .packaging-card {
-    height: 245px;
+  .editorial-navigation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .editorial-counter {
+    font-size: 9px;
+    letter-spacing: 1px;
+    min-width: 43px;
+    text-align: center;
   }
   .craft-bottom {
     align-items: start;
@@ -1597,7 +1629,7 @@ dialog::backdrop {
     display: none;
   }
   .panel-mark {
-  color: var(--ochre);
+    color: var(--ochre);
     width: 41px;
     height: 30px;
   }
