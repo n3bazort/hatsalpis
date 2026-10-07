@@ -65,6 +65,11 @@ export function Hero() {
         <span className="eyebrow">PAJA TOQUILLA NATURAL</span>
       </div>
       <div className="hero-product">
+        <div className="hero-impact" aria-hidden="true">
+          <span className="hero-impact-glow" />
+          <span className="hero-impact-ring" />
+          <span className="hero-impact-ring hero-impact-ring-outer" />
+        </div>
         <div className="hero-product-inner">
           <div className="hero-product-float">
             <ProductVisual

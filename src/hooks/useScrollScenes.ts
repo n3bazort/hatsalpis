@@ -25,31 +25,112 @@ export function useScrollScenes() {
           ease: "power2.out",
           clearProps: "transform",
         });
-        gsap.from(".hero-product-inner", {
-          opacity: 0,
-          y: 50,
-          rotate: 4,
-          duration: 1.5,
-          ease: "power3.out",
-        });
-        // Separate transforms let the subtle idle motion coexist with the
-        // entrance animation and the outer scroll-driven flight.
+        // Entrance, idle drift and scroll flight each own a separate layer.
+        const restingRotation = Number(
+          gsap.getProperty(".hero-product-inner", "rotation"),
+        );
+        let entranceComplete = false;
+        let heroVisible = true;
         const idleFloat = gsap.to(".hero-product-float", {
           x: 2,
           y: -8,
           rotation: 0.65,
           duration: 4.5,
-          delay: 1.5,
+          paused: true,
           ease: "sine.inOut",
           repeat: -1,
           yoyo: true,
         });
+        const entrance = gsap.timeline({
+          onComplete: () => {
+            entranceComplete = true;
+            if (heroVisible) idleFloat.play();
+          },
+        });
+        entrance
+          .fromTo(
+            ".hero-product-inner",
+            {
+              opacity: 0,
+              x: -window.innerWidth * 0.2,
+              y: window.innerHeight * 0.7,
+              scale: 2.7,
+              rotation: -65,
+            },
+            {
+              opacity: 1,
+              x: 12,
+              y: -45,
+              scale: 1.12,
+              rotation: restingRotation + 15,
+              duration: 1.05,
+              ease: "expo.out",
+            },
+            0.12,
+          )
+          .to(".hero-product-inner", {
+            x: -3,
+            y: 8,
+            scale: 0.985,
+            rotation: restingRotation - 3,
+            duration: 0.5,
+            ease: "power2.inOut",
+          })
+          .to(".hero-product-inner", {
+            x: 0,
+            y: 0,
+            scale: 1,
+            rotation: restingRotation,
+            duration: 0.7,
+            ease: "power2.out",
+          })
+          .fromTo(
+            ".hero-impact-glow",
+            {
+              scale: 0.3,
+              opacity: 0,
+            },
+            {
+              scale: 1.4,
+              opacity: 0.8,
+              duration: 0.45,
+              ease: "power3.out",
+            },
+            0.35,
+          )
+          .to(
+            ".hero-impact-glow",
+            {
+              scale: 1.7,
+              opacity: 0,
+              duration: 0.8,
+              ease: "power2.out",
+            },
+            0.8,
+          )
+          .fromTo(
+            ".hero-impact-ring",
+            {
+              scale: 0.35,
+              opacity: 0.6,
+            },
+            {
+              scale: 1.45,
+              opacity: 0,
+              duration: 1.05,
+              stagger: 0.12,
+              immediateRender: false,
+              ease: "power3.out",
+            },
+            0.4,
+          );
         ScrollTrigger.create({
           trigger: ".hero",
           start: "top bottom",
           end: "bottom top",
           onToggle: (self) => {
-            if (self.isActive) idleFloat.play();
+            heroVisible = self.isActive;
+            if (heroVisible && entranceComplete) idleFloat.play();
             else idleFloat.pause();
           },
         });
