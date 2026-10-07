@@ -24,10 +24,10 @@ export function useScrollScenes() {
         let entranceComplete = false;
         let heroVisible = true;
         const idleFloat = gsap.to(".hero-product-float", {
-          x: 2,
-          y: -8,
-          rotation: 0.65,
-          duration: 4.5,
+          x: 7,
+          y: -18,
+          rotation: 2,
+          duration: 2.4,
           paused: true,
           ease: "sine.inOut",
           repeat: -1,
