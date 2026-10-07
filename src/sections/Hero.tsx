@@ -67,6 +67,12 @@ export function Hero() {
       <div className="hero-product">
         <div className="hero-impact" aria-hidden="true">
           <span className="hero-impact-glow" />
+          {Array.from({ length: 36 }, (_, index) => (
+            <span
+              key={index}
+              className={`hero-fiber${index % 6 === 0 ? " hero-fiber-near" : ""}`}
+            />
+          ))}
           <span className="hero-impact-ring" />
           <span className="hero-impact-ring hero-impact-ring-outer" />
         </div>

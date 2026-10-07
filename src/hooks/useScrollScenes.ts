@@ -17,14 +17,6 @@ export function useScrollScenes() {
     let disposed = false;
     const ctx = gsap.context(() => {
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".hero-copy, .hero-side, .hero-bottom, .handmade-seal", {
-          opacity: 0,
-          y: 20,
-          duration: 1.1,
-          stagger: 0.12,
-          ease: "power2.out",
-          clearProps: "transform",
-        });
         // Entrance, idle drift and scroll flight each own a separate layer.
         const restingRotation = Number(
           gsap.getProperty(".hero-product-inner", "rotation"),
@@ -48,82 +40,47 @@ export function useScrollScenes() {
           },
         });
         entrance
-          .fromTo(
-            ".hero-product-inner",
-            {
-              opacity: 0,
-              x: -window.innerWidth * 0.2,
-              y: window.innerHeight * 0.7,
-              scale: 2.7,
-              rotation: -65,
-            },
-            {
-              opacity: 1,
-              x: 12,
-              y: -45,
-              scale: 1.12,
-              rotation: restingRotation + 15,
-              duration: 1.05,
-              ease: "expo.out",
-            },
-            0.12,
-          )
-          .to(".hero-product-inner", {
-            x: -3,
-            y: 8,
-            scale: 0.985,
-            rotation: restingRotation - 3,
-            duration: 0.5,
-            ease: "power2.inOut",
-          })
-          .to(".hero-product-inner", {
-            x: 0,
-            y: 0,
-            scale: 1,
-            rotation: restingRotation,
-            duration: 0.7,
-            ease: "power2.out",
-          })
-          .fromTo(
-            ".hero-impact-glow",
-            {
-              scale: 0.3,
-              opacity: 0,
-            },
-            {
-              scale: 1.4,
-              opacity: 0.8,
-              duration: 0.45,
-              ease: "power3.out",
-            },
-            0.35,
-          )
-          .to(
-            ".hero-impact-glow",
-            {
-              scale: 1.7,
-              opacity: 0,
-              duration: 0.8,
-              ease: "power2.out",
-            },
-            0.8,
-          )
-          .fromTo(
-            ".hero-impact-ring",
-            {
-              scale: 0.35,
-              opacity: 0.6,
-            },
-            {
-              scale: 1.45,
-              opacity: 0,
-              duration: 1.05,
-              stagger: 0.12,
-              immediateRender: false,
-              ease: "power3.out",
-            },
-            0.4,
-          );
+          .fromTo(".hero-impact-glow",
+            { scale: 0.035, opacity: 0 },
+            { scale: 0.18, opacity: 1, duration: 0.42, ease: "power2.in" }, 0)
+          .to(".hero-impact-glow",
+            { scale: 1.8, opacity: 0, duration: 0.85, ease: "expo.out" }, 0.42)
+          .fromTo(".hero-impact-ring",
+            { scale: 0.08, opacity: 0.75 },
+            { scale: 1.75, opacity: 0, duration: 1, stagger: 0.08,
+              immediateRender: false, ease: "expo.out" }, 0.42)
+          .fromTo(".hero-product-inner",
+            { opacity: 0, scale: 0.08, rotation: -75, y: 35 },
+            { opacity: 1, scale: 1.65, rotation: restingRotation + 22,
+              y: -65, duration: 0.42, ease: "expo.out" }, 0.44)
+          .to(".hero-product-inner",
+            { scale: 0.97, rotation: restingRotation - 4, y: 8,
+              duration: 0.65, ease: "power3.inOut" }, 0.86)
+          .to(".hero-product-inner",
+            { scale: 1, rotation: restingRotation, y: 0,
+              duration: 0.8, ease: "power2.out" }, 1.51)
+          .fromTo(".hero-copy",
+            { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.out" }, 1.05)
+          .fromTo(".hero-kicker, .hero-side, .hero-bottom",
+            { opacity: 0 }, { opacity: 1, duration: 0.7, stagger: 0.1 }, 1.3);
+
+        // Deterministic trajectories keep each replay stable and inexpensive.
+        gsap.utils.toArray<HTMLElement>(".hero-fiber").forEach((fiber, index) => {
+          const angle = (index * 137.508 * Math.PI) / 180;
+          const radius = Math.min(window.innerWidth * 0.52, 520) *
+            (0.55 + (index % 7) * 0.075);
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius * 0.7;
+          const rotation = index * 47;
+          entrance.fromTo(fiber,
+            { x: 0, y: 0, opacity: 0, scale: 0.2, rotation },
+            { x, y, opacity: 0.8, scale: index % 6 === 0 ? 1.8 : 1,
+              rotation: rotation + 110, duration: 0.48, ease: "expo.out",
+              immediateRender: false }, 0.43 + (index % 4) * 0.015)
+            .to(fiber, { x: x * 1.12, y: y + 65 + (index % 5) * 12,
+              rotation: rotation + 180, opacity: 0, scale: 0.6,
+              duration: 1.45, ease: "power1.out" }, 0.97);
+        });
         ScrollTrigger.create({
           trigger: ".hero",
           start: "top bottom",
