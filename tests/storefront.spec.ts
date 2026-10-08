@@ -1,12 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
 
-const productNames = [
-  "Pieza terminada",
-  "La trama",
-  "El detalle",
-  "El oficio",
-];
-
 async function openSite(page: Page) {
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
@@ -54,7 +47,8 @@ test("brand, assets, and layout work without horizontal overflow", async ({
   );
   await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).fontFamily)).toContain("Poppins");
   await expect.poll(() => page.evaluate(() => getComputedStyle(document.querySelector("h1")!).fontFamily)).toContain("Cormorant Garamond");
-  await expect(page.locator(".product-card")).toHaveCount(4);
+  await expect(page.locator(".hero-hat-svg")).toHaveCount(1);
+  await expect(page.locator(".hero-product img")).toHaveCount(0);
   // Check every full-screen section, including the intentionally clipped orbital carousel.
   for (const section of [
     "#inicio",
@@ -161,34 +155,17 @@ test("menu traps focus, closes with Escape, and navigates to the collection", as
   ).toBeInViewport();
 });
 
-test("each product opens with a reset size and a correct WhatsApp enquiry", async ({
-  page,
-}) => {
+test("documentary photos are not sold as products and model enquiries remain available", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await openSite(page);
-  for (const name of productNames) {
-    const card = page.getByRole("button", { name: `Ver ${name}`, exact: true });
-    await card.click();
-    const dialog = page.getByRole("dialog", { name, exact: true });
-    await expect(dialog).toBeVisible();
-    await expect(
-      dialog.getByRole("radio", { name: "Por definir", exact: true }),
-    ).toBeChecked();
-    await dialog.getByRole("radio", { name: "M · 56–57", exact: true }).check();
-    await expect(
-      dialog.getByRole("radio", { name: "M · 56–57", exact: true }),
-    ).toBeChecked();
-    const contact = dialog.getByRole("link", { name: "Consultar esta pieza" });
-    const destination = new URL((await contact.getAttribute("href"))!);
-    expect(destination.origin).toBe("https://wa.me");
-    expect(destination.pathname).toBe("/593967113954");
-    expect(destination.searchParams.get("text")).toContain(name);
-    expect(destination.searchParams.get("text")).toContain("M · 56–57");
-    await expect(contact).toHaveAttribute("target", "_blank");
-    await page.keyboard.press("Escape");
-    await expect(dialog).not.toBeVisible();
-    await expect(card).toBeFocused();
-  }
+  await expect(page.locator(".product-card")).toHaveCount(0);
+  await expect(page.locator(".size-picker")).toHaveCount(0);
+  const contact = page.getByRole("link", { name: "Ver modelos por WhatsApp" });
+  await contact.scrollIntoViewIfNeeded();
+  await expect(contact).toBeVisible();
+  await expect(contact).toHaveAttribute("href", /^https:\/\/wa\.me\/593967113954\?text=/);
+  const sources = await page.locator("main img").evaluateAll(images => images.map(img => img.getAttribute("src")));
+  expect(new Set(sources).size).toBe(sources.length);
 });
 
 test("materials and care content open and close accessibly", async ({
@@ -214,42 +191,22 @@ test("materials and care content open and close accessibly", async ({
   await expect(care).toBeFocused();
 });
 
-test("scroll carousel changes the central hat from start through end", async ({
-  page,
-}) => {
+test("editorial carousel moves between three unique stories", async ({ page }) => {
   await openSite(page);
   const controls = page.locator(".carousel-controls");
+  await expect(page.locator(".carousel-hat")).toHaveCount(3);
   await scrollCarousel(page, 0);
-  await expect(controls.getByRole("heading")).toHaveText("Pieza terminada");
-  await expect(
-    controls.getByRole("button", { name: "Sombrero anterior" }),
-  ).toBeDisabled();
-  const start = await hatState(page, 2);
-  expect(start.scale).toBeCloseTo(1.18, 2);
-  expect(start.scale).toBeGreaterThan((await hatState(page, 1)).scale);
-
+  await expect(controls.getByRole("heading")).toHaveText("La materia prima");
+  await expect(controls.getByRole("button", { name: "Imagen anterior", exact: true })).toBeDisabled();
+  await expect.poll(async () => (await hatState(page, 0)).scale).toBeCloseTo(1.18, 2);
   await scrollCarousel(page, 0.5);
-  await expect(controls.getByRole("heading")).toHaveText("El detalle");
-  expect((await hatState(page, 4)).scale).toBeCloseTo(1.18, 2);
-  expect((await hatState(page, 2)).x).toBeLessThan(start.x);
-  await expect(
-    controls.getByRole("button", { name: "Ver silueta 3: El detalle" }),
-  ).toHaveAttribute("aria-current", "true");
-
+  await expect(controls.getByRole("heading")).toHaveText("El tejido de cerca");
+  await expect.poll(async () => (await hatState(page, 1)).scale).toBeCloseTo(1.18, 2);
   await scrollCarousel(page, 1);
-  await expect(controls.getByRole("heading")).toHaveText(
-    "El arte de lo natural",
-  );
-  expect((await hatState(page, 6)).scale).toBeCloseTo(1.18, 2);
-  await expect(
-    controls.getByRole("button", { name: "Siguiente sombrero" }),
-  ).toBeDisabled();
-  await controls.getByRole("button", { name: "Sombrero anterior" }).click();
-  await expect(controls.getByRole("heading")).toHaveText("El oficio");
-  await controls.getByRole("button", { name: "Siguiente sombrero" }).click();
-  await expect(controls.getByRole("heading")).toHaveText(
-    "El arte de lo natural",
-  );
+  await expect(controls.getByRole("heading")).toHaveText("Cada forma, una historia");
+  await expect(controls.getByRole("button", { name: "Siguiente imagen", exact: true })).toBeDisabled();
+  await controls.getByRole("button", { name: "Imagen anterior", exact: true }).click();
+  await expect(controls.getByRole("heading")).toHaveText("El tejido de cerca");
 });
 
 test("reduced motion preserves usable carousel and contact controls", async ({
@@ -260,17 +217,17 @@ test("reduced motion preserves usable carousel and contact controls", async ({
   await openSite(page);
   await scrollCarousel(page, 0);
   await page
-    .getByRole("button", { name: "Ver silueta 4: El oficio" })
+    .getByRole("button", { name: "Ver historia 3: Cada forma, una historia" })
     .click();
   await expect(page.locator(".carousel-controls h3")).toHaveText(
-    "El oficio",
+    "Cada forma, una historia",
   );
   await expect
-    .poll(async () => (await hatState(page, 5)).scale)
+    .poll(async () => (await hatState(page, 2)).scale)
     .toBeCloseTo(1.18, 2);
   const rotation = await page
     .locator(".carousel-hat")
-    .nth(4)
+    .nth(2)
     .evaluate((hat) => new DOMMatrix(getComputedStyle(hat).transform).m12);
   expect(rotation).toBe(0);
   const contact = page
@@ -292,9 +249,9 @@ test("reduced motion preserves usable carousel and contact controls", async ({
     await page.evaluate(() => document.fonts.ready);
     await scrollCarousel(page, 0.5);
     await expect(page.locator(".carousel-controls h3")).toHaveText(
-      "El detalle",
+      "El tejido de cerca",
     );
-    for (const name of ["Sombrero anterior", "Siguiente sombrero"]) {
+    for (const name of ["Imagen anterior", "Siguiente imagen"]) {
       const control = page.getByRole("button", { name, exact: true });
       await expect(control).toBeInViewport({ ratio: 1 });
     }

@@ -1,6 +1,6 @@
 import { ArrowUpRight, Plus } from "lucide-react";
 import { ProductVisual } from "../components/ProductVisual";
-import { products, type Product } from "../data/products";
+import { products, whatsappUrl, type Product } from "../data/products";
 
 export function Collection({
   onSelect,
@@ -33,6 +33,16 @@ export function Collection({
         </p>
       </div>
       <div className="collection-grid">
+        {products.length === 0 && (
+          <div className="collection-consultation">
+            <span className="eyebrow">UNA ELECCIÓN PERSONAL</span>
+            <h3>Encuentra <em>el tuyo.</em></h3>
+            <p>Cuéntanos qué estilo buscas. Te compartimos los modelos, las medidas y los precios disponibles en tienda.</p>
+            <a className="button button-solid" href={whatsappUrl()} target="_blank" rel="noreferrer">
+              Ver modelos por WhatsApp <ArrowUpRight size={18} />
+            </a>
+          </div>
+        )}
         {products.map((p, index) => (
           <article key={p.id} className={`product-card ${index === 0 ? "product-card-featured" : ""}`}>
             <button
@@ -67,7 +77,7 @@ export function Collection({
       </div>
       <div className="collection-foot">
         <span>HECHOS A MANO. NUNCA EXACTAMENTE IGUALES.</span>
-        <span>Fotografías documentales · disponibilidad por confirmar</span>
+        <span>Modelos y tallas disponibles por WhatsApp</span>
       </div>
     </section>
   );

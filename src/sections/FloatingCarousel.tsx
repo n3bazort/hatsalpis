@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight } from "lucide-react";
 import { ProductVisual } from "../components/ProductVisual";
-import { carouselProducts, orbitItems } from "../data/carousel";
+import { carouselStories, orbitItems } from "../data/carousel";
 
 export function FloatingCarousel({
   carouselRef,
@@ -21,7 +21,7 @@ export function FloatingCarousel({
     >
       <div className="carousel-stage">
         <div className="section-topline">
-          <span>04 / EN MOVIMIENTO</span>
+          <span>04 / MIRADAS DE MONTECRISTI</span>
           <span>UNA TRADICIÓN QUE VA CONTIGO</span>
         </div>
         <div className="carousel-heading">
@@ -52,7 +52,6 @@ export function FloatingCarousel({
             <div className="carousel-hat" key={`${p.id}-${index}`}>
               <ProductVisual
                 src={p.image}
-                variant={p.visualVariant}
                 alt=""
               />
             </div>
@@ -63,23 +62,23 @@ export function FloatingCarousel({
             className="icon-button"
             onClick={() => goToCarousel(active - 1)}
             disabled={active === 0}
-            aria-label="Sombrero anterior"
+            aria-label="Imagen anterior"
           >
             <ArrowLeft size={20} />
           </button>
           <div aria-live="polite">
-            <span className="eyebrow">0{active + 1} / 05</span>
-            <h3>{carouselProducts[active].name}</h3>
-            <a className="carousel-photo-source" href={carouselProducts[active].photoSource} target="_blank" rel="noreferrer">
-              FOTO: {carouselProducts[active].photoCredit} ↗
+            <span className="eyebrow">0{active + 1} / 0{carouselStories.length}</span>
+            <h3>{carouselStories[active].name}</h3>
+            <a className="carousel-photo-source" href={carouselStories[active].photoSource} target="_blank" rel="noreferrer">
+              FOTO: {carouselStories[active].photoCredit} ↗
             </a>
             <div className="carousel-dots">
-              {carouselProducts.map((p, i) => (
+              {carouselStories.map((p, i) => (
                 <button
                   key={p.id}
                   className={active === i ? "active" : ""}
                   onClick={() => goToCarousel(i)}
-                  aria-label={`Ver silueta ${i + 1}: ${p.name}`}
+                  aria-label={`Ver historia ${i + 1}: ${p.name}`}
                   aria-current={active === i ? "true" : undefined}
                 />
               ))}
@@ -88,8 +87,8 @@ export function FloatingCarousel({
           <button
             className="icon-button"
             onClick={() => goToCarousel(active + 1)}
-            disabled={active === 4}
-            aria-label="Siguiente sombrero"
+            disabled={active === carouselStories.length - 1}
+            aria-label="Siguiente imagen"
           >
             <ArrowRight size={20} />
           </button>

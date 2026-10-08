@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { carouselProducts } from "../data/carousel";
+import { carouselStories } from "../data/carousel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -223,14 +223,14 @@ export function useScrollScenes() {
 
       const hats = gsap.utils.toArray<HTMLElement>(".carousel-hat");
       const renderOrbit = (progress: number) => {
-        const position = progress * (carouselProducts.length - 1);
+        const position = progress * (carouselStories.length - 1);
         const width = window.innerWidth;
         const gap = width * (width < 700 ? 0.55 : 0.24);
         const reduced = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
         hats.forEach((hat, i) => {
-          const distance = i - 2 - position;
+          const distance = i - position;
           const proximity = Math.min(Math.abs(distance), 2);
           gsap.set(hat, {
             x: distance * gap,
@@ -272,7 +272,7 @@ export function useScrollScenes() {
   function goToCarousel(index: number) {
     const section = carouselRef.current;
     if (!section) return;
-    const lastIndex = carouselProducts.length - 1;
+    const lastIndex = carouselStories.length - 1;
     const clamped = Math.max(0, Math.min(lastIndex, index));
     const top = window.scrollY + section.getBoundingClientRect().top;
     window.scrollTo({

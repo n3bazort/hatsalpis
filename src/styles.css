@@ -319,25 +319,10 @@ em {
   width: 100%;
   will-change: transform;
 }
-.hero-product img {
-  display: block;
+.hero-product svg {
   width: 100%;
   height: auto;
-}
-.hero-hat-photo {
-  mix-blend-mode: multiply;
-  mask-image: radial-gradient(ellipse at center, #000 62%, #000b 80%, transparent 100%);
-  filter: saturate(0.88) contrast(1.03);
-}
-.hero-photo-credit {
-  position: absolute;
-  z-index: 3;
-  right: 8%;
-  bottom: -18px;
-  font-size: 6px;
-  letter-spacing: 1px;
-  color: var(--muted);
-  white-space: nowrap;
+  overflow: visible;
 }
 .hero-side {
   position: absolute;
@@ -1575,11 +1560,6 @@ dialog::backdrop {
   .hero-product-inner {
     transform: rotate(-9deg);
   }
-  .hero-photo-credit {
-    right: 4%;
-    bottom: -13px;
-    font-size: 5px;
-  }
   .hero-side-left {
     top: 69%;
     left: 7%;
@@ -2265,5 +2245,50 @@ dialog::backdrop {
   .carousel-dome > span {
     bottom: 22%;
     font-size: 6px;
+  }
+}
+
+/* Catalog photography is always shown whole on a neutral white backdrop. */
+.product-art,
+.product-card-featured .product-art,
+.product-card:hover .product-art,
+.dialog-visual {
+  background: #fff;
+}
+.product-art > img {
+  object-fit: contain;
+  padding: 32px 15px;
+}
+.dialog-visual > img {
+  width: 100%;
+  margin: 0;
+  object-fit: contain;
+  transform: none;
+}
+.collection-consultation {
+  grid-column: 1 / -1;
+  padding: clamp(35px, 6vw, 80px);
+  border: 1px solid var(--line);
+  background: #fff;
+  text-align: center;
+}
+.collection-consultation h3 {
+  font-size: clamp(45px, 6vw, 75px);
+  margin: 18px 0;
+}
+.collection-consultation p {
+  max-width: 460px;
+  margin: 0 auto 30px;
+  font-size: 13px;
+  line-height: 1.9;
+}
+@media (max-width: 700px) {
+  .dialog-visual > img {
+    width: 84%;
+  }
+  .collection-consultation .button {
+    gap: 14px;
+    padding: 18px 14px;
+    font-size: 10px;
   }
 }

@@ -17,7 +17,7 @@ export function OriginStory() {
           <figcaption>
             La fibra comienza su camino en la tierra de Manabí.
             <a
-              href="https://www.sombreromontecristi.org/proceso-de-certificacion/wp-content/uploads/2026/05/1_sombrero-en-toquillal_3-scaled.jpg"
+              href="https://www.sombreromontecristi.org/wp-content/uploads/2026/05/1_sombrero-en-toquillal_3-scaled.jpg"
               target="_blank"
               rel="noreferrer"
             >
@@ -78,7 +78,7 @@ export function OriginStory() {
               específica cuenta con sello o trazabilidad verificada.
             </p>
             <a
-              href="https://www.sombreromontecristi.org/proceso-de-certificacion/wp-content/uploads/2026/04/cropped-logoOKoficina-e1776867619457.png"
+              href="https://www.sombreromontecristi.org/wp-content/uploads/2026/04/cropped-logoOKoficina-e1776867619457.png"
               target="_blank"
               rel="noreferrer"
             >

@@ -39,8 +39,8 @@ export function Closing() {
       </div>
       <div className="closing-hat">
         <ProductVisual
-          variant="hero"
-          alt="Artesano trabajando el ala de un sombrero Montecristi"
+          src={`${import.meta.env.BASE_URL}images/hat-shop.webp`}
+          alt="Una artesana presenta sombreros en una tienda de Montecristi"
         />
       </div>
       <a className="closing-photo-source" href="https://montecristicreativa.org/wp-content/uploads/2026/05/10ST200341-scaled.jpg" target="_blank" rel="noreferrer">

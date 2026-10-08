@@ -44,7 +44,6 @@ export function ProductDialog({
             <span className="eyebrow">MONTECRISTI, ECUADOR</span>
             <ProductVisual
               src={product.image}
-              variant={product.visualVariant}
               alt={`Fotografía real de ${product.name}`}
             />
             <a className="visual-note" href={product.photoSource} target="_blank" rel="noreferrer">
@@ -78,7 +77,7 @@ export function ProductDialog({
             <a
               className="button button-solid"
               href={whatsappUrl(
-                `Hola, vi la fotografía “${product.name}”. Mi talla aproximada es ${size}. ¿Qué sombreros tienen disponibles y cuáles son sus precios?`,
+                `Hola, me interesa el modelo ${product.name}. Mi talla aproximada es ${size}. ¿Qué sombreros tienen disponibles y cuáles son sus precios?`,
               )}
               target="_blank"
               rel="noreferrer"

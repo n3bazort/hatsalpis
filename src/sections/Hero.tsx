@@ -1,5 +1,5 @@
 import { ArrowDown, Asterisk } from "lucide-react";
-import { ProductVisual } from "../components/ProductVisual";
+import { HatHero } from "../components/AnimatedHat";
 
 function HandmadeSeal() {
   return (
@@ -78,22 +78,12 @@ export function Hero() {
         </div>
         <div className="hero-product-inner">
           <div className="hero-product-float">
-            <ProductVisual
-              variant="hero"
-              alt="Artesano trabajando en el ala de un sombrero en Montecristi"
-              loading="eager"
-              className="hero-hat-photo"
+            <HatHero
+              alt="Sombrero Montecristi de paja natural y cinta oscura"
+              className="hero-hat-svg"
             />
           </div>
         </div>
-        <a
-          className="hero-photo-credit"
-          href="https://montecristicreativa.org/wp-content/uploads/2026/05/10ST200341-scaled.jpg"
-          target="_blank"
-          rel="noreferrer"
-        >
-          FOTO · MONTECRISTI CIUDAD CREATIVA ↗
-        </a>
       </div>
       <div className="hero-side hero-side-right">
         <HandmadeSeal />
