@@ -80,11 +80,20 @@ export function Hero() {
           <div className="hero-product-float">
             <ProductVisual
               variant="hero"
-              alt="Sombrero Montecristi ilustrado, de paja natural y cinta oscura"
-              className="hero-hat-svg"
+              alt="Artesano trabajando en el ala de un sombrero en Montecristi"
+              loading="eager"
+              className="hero-hat-photo"
             />
           </div>
         </div>
+        <a
+          className="hero-photo-credit"
+          href="https://montecristicreativa.org/wp-content/uploads/2026/05/10ST200341-scaled.jpg"
+          target="_blank"
+          rel="noreferrer"
+        >
+          FOTO · MONTECRISTI CIUDAD CREATIVA ↗
+        </a>
       </div>
       <div className="hero-side hero-side-right">
         <HandmadeSeal />
@@ -110,7 +119,7 @@ export function Hero() {
         </span>
       </div>
       <span className="hero-edition" aria-hidden="true">
-        01 — EL ORIGEN
+        MANABÍ — ECUADOR
       </span>
     </section>
   );

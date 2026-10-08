@@ -10,6 +10,7 @@ import {
 import type { Product } from "./data/products";
 import { Hero } from "./sections/Hero";
 import { Craft } from "./sections/Craft";
+import { OriginStory } from "./sections/OriginStory";
 import { Collection } from "./sections/Collection";
 import { BrandPanel } from "./sections/BrandPanel";
 import { FloatingCarousel } from "./sections/FloatingCarousel";
@@ -26,6 +27,7 @@ export default function App() {
       <Header />
       <main>
         <Hero />
+        <OriginStory />
         <Craft onTopic={setTopic} />
         <Collection onSelect={setSelected} />
         <BrandPanel onTopic={setTopic} />
@@ -44,8 +46,8 @@ export default function App() {
           </span>
         </a>
         <span>Hecho con tiempo. Para durar en tu historia.</span>
-        <a href="https://hatsfalpis.com" target="_blank" rel="noreferrer">
-          hatsfalpis.com <ArrowUpRight size={14} />
+        <a href="#origen">
+          ORIGEN Y RECONOCIMIENTOS <ArrowUpRight size={14} />
         </a>
       </footer>
       <ProductDialog product={selected} onClose={() => setSelected(null)} />

@@ -14,60 +14,60 @@ export function Collection({
       aria-labelledby="collection-title"
     >
       <div className="section-topline">
-        <span>02 / LA COLECCIÓN</span>
-        <span>CUATRO SILUETAS. TU PROPIA ESENCIA.</span>
+        <span>03 / LA COLECCIÓN</span>
+        <span>TRAMAS Y FORMAS DE MONTECRISTI.</span>
       </div>
       <div className="collection-heading reveal">
         <div>
           <span className="eyebrow">ENCUENTRA TU FORMA</span>
           <h2 id="collection-title">
-            Nuestros
+            Sombreros
             <br />
-            <em>sombreros.</em>
+            <em>de aquí.</em>
           </h2>
         </div>
         <p>
-          El mismo origen.
+          Cada tejido es distinto.
           <br />
-          Distintas maneras de llevarlo.
+          Consulta los modelos disponibles.
         </p>
       </div>
       <div className="collection-grid">
         {products.map((p, index) => (
-          <button
-            key={p.id}
-            className={`product-card ${index === 0 ? "product-card-featured" : ""}`}
-            onClick={() => onSelect(p)}
-            aria-label={`Ver ${p.name}`}
-          >
-            <div className="product-art">
-              <span className="product-number">0{index + 1}</span>
-              <span className="product-tag">{p.tag}</span>
-              <ProductVisual
-                type={p.image ? "image" : "svg"}
-                src={p.image}
-                variant={p.svgVariant}
-                color={p.color}
-                ribbonColor={p.ribbonColor}
-                alt={`Ilustración de ${p.name}`}
-              />
-              <span className="product-open">
-                <Plus size={18} strokeWidth={1.2} />
-              </span>
-            </div>
-            <div className="product-caption">
-              <h3>{p.name}</h3>
-              <p>{p.shortDescription}</p>
-              <span className="product-cta">
-                DESCUBRIR <ArrowUpRight size={13} />
-              </span>
-            </div>
-          </button>
+          <article key={p.id} className={`product-card ${index === 0 ? "product-card-featured" : ""}`}>
+            <button
+              className="product-card-trigger"
+              onClick={() => onSelect(p)}
+              aria-label={`Ver ${p.name}`}
+            >
+              <div className="product-art">
+                <span className="product-number">0{index + 1}</span>
+                <span className="product-tag">{p.tag}</span>
+                <ProductVisual
+                  src={p.image}
+                  alt={`Fotografía real: ${p.name}`}
+                />
+                <span className="product-open">
+                  <Plus size={18} strokeWidth={1.2} />
+                </span>
+              </div>
+              <div className="product-caption">
+                <h3>{p.name}</h3>
+                <p>{p.shortDescription}</p>
+                <span className="product-cta">
+                  DESCUBRIR <ArrowUpRight size={13} />
+                </span>
+              </div>
+            </button>
+            <a className="product-photo-source" href={p.photoSource} target="_blank" rel="noreferrer">
+              FOTO: {p.photoCredit} ↗
+            </a>
+          </article>
         ))}
       </div>
       <div className="collection-foot">
         <span>HECHOS A MANO. NUNCA EXACTAMENTE IGUALES.</span>
-        <span>Siluetas ilustrativas · Consulta cada pieza</span>
+        <span>Fotografías documentales · disponibilidad por confirmar</span>
       </div>
     </section>
   );

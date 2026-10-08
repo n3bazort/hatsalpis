@@ -1,10 +1,10 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const productNames = [
-  "Classic Montecristi",
-  "Wide Brim",
-  "Fedora Natural",
-  "Traveler Hat",
+  "Pieza terminada",
+  "La trama",
+  "El detalle",
+  "El oficio",
 ];
 
 async function openSite(page: Page) {
@@ -52,10 +52,13 @@ test("brand, assets, and layout work without horizontal overflow", async ({
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(
     "MONTECRISTI HATS",
   );
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).fontFamily)).toContain("Poppins");
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.querySelector("h1")!).fontFamily)).toContain("Cormorant Garamond");
   await expect(page.locator(".product-card")).toHaveCount(4);
   // Check every full-screen section, including the intentionally clipped orbital carousel.
   for (const section of [
     "#inicio",
+    "#origen",
     "#artesania",
     "#coleccion",
     ".brand-panel",
@@ -154,7 +157,7 @@ test("menu traps focus, closes with Escape, and navigates to the collection", as
   await expect(menu).not.toBeVisible();
   await expect(page).toHaveURL(/#coleccion$/);
   await expect(
-    page.getByRole("heading", { name: "Nuestros sombreros." }),
+    page.getByRole("heading", { name: "Sombreros de aquí." }),
   ).toBeInViewport();
 });
 
@@ -217,7 +220,7 @@ test("scroll carousel changes the central hat from start through end", async ({
   await openSite(page);
   const controls = page.locator(".carousel-controls");
   await scrollCarousel(page, 0);
-  await expect(controls.getByRole("heading")).toHaveText("Classic Montecristi");
+  await expect(controls.getByRole("heading")).toHaveText("Pieza terminada");
   await expect(
     controls.getByRole("button", { name: "Sombrero anterior" }),
   ).toBeDisabled();
@@ -226,11 +229,11 @@ test("scroll carousel changes the central hat from start through end", async ({
   expect(start.scale).toBeGreaterThan((await hatState(page, 1)).scale);
 
   await scrollCarousel(page, 0.5);
-  await expect(controls.getByRole("heading")).toHaveText("Fedora Natural");
+  await expect(controls.getByRole("heading")).toHaveText("El detalle");
   expect((await hatState(page, 4)).scale).toBeCloseTo(1.18, 2);
   expect((await hatState(page, 2)).x).toBeLessThan(start.x);
   await expect(
-    controls.getByRole("button", { name: "Ver silueta 3: Fedora Natural" }),
+    controls.getByRole("button", { name: "Ver silueta 3: El detalle" }),
   ).toHaveAttribute("aria-current", "true");
 
   await scrollCarousel(page, 1);
@@ -242,7 +245,7 @@ test("scroll carousel changes the central hat from start through end", async ({
     controls.getByRole("button", { name: "Siguiente sombrero" }),
   ).toBeDisabled();
   await controls.getByRole("button", { name: "Sombrero anterior" }).click();
-  await expect(controls.getByRole("heading")).toHaveText("Traveler Hat");
+  await expect(controls.getByRole("heading")).toHaveText("El oficio");
   await controls.getByRole("button", { name: "Siguiente sombrero" }).click();
   await expect(controls.getByRole("heading")).toHaveText(
     "El arte de lo natural",
@@ -257,10 +260,10 @@ test("reduced motion preserves usable carousel and contact controls", async ({
   await openSite(page);
   await scrollCarousel(page, 0);
   await page
-    .getByRole("button", { name: "Ver silueta 4: Traveler Hat" })
+    .getByRole("button", { name: "Ver silueta 4: El oficio" })
     .click();
   await expect(page.locator(".carousel-controls h3")).toHaveText(
-    "Traveler Hat",
+    "El oficio",
   );
   await expect
     .poll(async () => (await hatState(page, 5)).scale)
@@ -289,7 +292,7 @@ test("reduced motion preserves usable carousel and contact controls", async ({
     await page.evaluate(() => document.fonts.ready);
     await scrollCarousel(page, 0.5);
     await expect(page.locator(".carousel-controls h3")).toHaveText(
-      "Fedora Natural",
+      "El detalle",
     );
     for (const name of ["Sombrero anterior", "Siguiente sombrero"]) {
       const control = page.getByRole("button", { name, exact: true });
@@ -358,7 +361,7 @@ test("craft gallery makes every card reachable by touch and mobile controls", as
     await expect(cards.nth(index)).toBeInViewport({ ratio: 1 });
   }
   await expect(next).toBeDisabled();
-  await expect(cards.last()).toContainText("CADA DETALLE CUENTA");
+  await expect(cards.last()).toContainText("UNA PIEZA CON HISTORIA");
   await gallery.focus();
   await page.keyboard.press("Home");
   await expect(cards.first()).toBeInViewport({ ratio: 1 });

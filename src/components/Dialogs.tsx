@@ -43,14 +43,13 @@ export function ProductDialog({
           <div className="dialog-visual">
             <span className="eyebrow">MONTECRISTI, ECUADOR</span>
             <ProductVisual
-              variant={product.svgVariant}
-              color={product.color}
-              ribbonColor={product.ribbonColor}
-              alt={`Ilustración de ${product.name}`}
+              src={product.image}
+              variant={product.visualVariant}
+              alt={`Fotografía real de ${product.name}`}
             />
-            <span className="visual-note">
-              Silueta ilustrativa · Cada pieza es única
-            </span>
+            <a className="visual-note" href={product.photoSource} target="_blank" rel="noreferrer">
+              FOTO: {product.photoCredit} ↗
+            </a>
           </div>
           <div className="dialog-details">
             <span className="eyebrow">{product.tag} — PAJA TOQUILLA</span>
@@ -79,7 +78,7 @@ export function ProductDialog({
             <a
               className="button button-solid"
               href={whatsappUrl(
-                `Hola, me interesa el sombrero ${product.name}. Mi talla aproximada es ${size}. ¿Me pueden indicar precio y disponibilidad?`,
+                `Hola, vi la fotografía “${product.name}”. Mi talla aproximada es ${size}. ¿Qué sombreros tienen disponibles y cuáles son sus precios?`,
               )}
               target="_blank"
               rel="noreferrer"

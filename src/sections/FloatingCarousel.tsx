@@ -21,7 +21,7 @@ export function FloatingCarousel({
     >
       <div className="carousel-stage">
         <div className="section-topline">
-          <span>03 / EN MOVIMIENTO</span>
+          <span>04 / EN MOVIMIENTO</span>
           <span>UNA TRADICIÓN QUE VA CONTIGO</span>
         </div>
         <div className="carousel-heading">
@@ -51,9 +51,8 @@ export function FloatingCarousel({
           {orbitItems.map((p, index) => (
             <div className="carousel-hat" key={`${p.id}-${index}`}>
               <ProductVisual
-                variant={p.svgVariant}
-                color={p.color}
-                ribbonColor={p.ribbonColor}
+                src={p.image}
+                variant={p.visualVariant}
                 alt=""
               />
             </div>
@@ -71,6 +70,9 @@ export function FloatingCarousel({
           <div aria-live="polite">
             <span className="eyebrow">0{active + 1} / 05</span>
             <h3>{carouselProducts[active].name}</h3>
+            <a className="carousel-photo-source" href={carouselProducts[active].photoSource} target="_blank" rel="noreferrer">
+              FOTO: {carouselProducts[active].photoCredit} ↗
+            </a>
             <div className="carousel-dots">
               {carouselProducts.map((p, i) => (
                 <button

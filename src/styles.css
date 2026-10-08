@@ -7,7 +7,7 @@
   --line: rgba(77, 40, 25, 0.2);
   --ochre: #9b6f3e;
   --serif: "Cormorant Garamond", Georgia, serif;
-  --sans: "DM Sans", sans-serif;
+  --sans: "Poppins", sans-serif;
   font-family: var(--sans);
   color: var(--cocoa);
   background: var(--paper);
@@ -319,10 +319,25 @@ em {
   width: 100%;
   will-change: transform;
 }
-.hero-product svg {
+.hero-product img {
+  display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
+}
+.hero-hat-photo {
+  mix-blend-mode: multiply;
+  mask-image: radial-gradient(ellipse at center, #000 62%, #000b 80%, transparent 100%);
+  filter: saturate(0.88) contrast(1.03);
+}
+.hero-photo-credit {
+  position: absolute;
+  z-index: 3;
+  right: 8%;
+  bottom: -18px;
+  font-size: 6px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  white-space: nowrap;
 }
 .hero-side {
   position: absolute;
@@ -514,14 +529,8 @@ em {
   background: #d5c7aa;
   transform: rotate(1deg);
 }
-.center-card > svg {
-  position: absolute;
-  width: 108%;
-  max-width: none;
-  left: -4%;
-  top: 19%;
-  filter: drop-shadow(0 15px 13px #53371533);
-  transform: rotate(-14deg);
+.center-card > img {
+  filter: none;
 }
 .center-card-label {
   font-size: 9px;
@@ -548,6 +557,117 @@ em {
   margin-top: 38px;
   font-size: 11px;
   color: var(--ink);
+}
+.origin-story {
+  padding: 0 5% 90px;
+  color: var(--ink);
+}
+.origin-story-main {
+  display: grid;
+  grid-template-columns: 1.05fr 0.8fr;
+  gap: clamp(38px, 8vw, 130px);
+  align-items: center;
+  padding: 90px 7% 100px;
+}
+.origin-landscape {
+  position: relative;
+  height: clamp(370px, 43vw, 650px);
+  overflow: hidden;
+  background: #d1b991;
+}
+.origin-landscape img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.origin-landscape figcaption {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 52px 20px 18px;
+  background: linear-gradient(transparent, #21150eb8);
+  color: #fff9ee;
+  font-size: 11px;
+}
+.origin-landscape figcaption a,
+.editorial-card figcaption a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+.origin-copy .eyebrow {
+  font-size: 8px;
+  letter-spacing: 1.7px;
+}
+.origin-copy h2 {
+  font-size: clamp(54px, 6.2vw, 92px);
+  font-weight: 400;
+  line-height: 0.92;
+  margin: 26px 0;
+}
+.origin-copy h2 em {
+  color: var(--ochre);
+}
+.origin-copy p {
+  font-size: 13px;
+  line-height: 1.9;
+  max-width: 400px;
+  margin-bottom: 26px;
+}
+.origin-copy .text-link {
+  color: var(--cocoa);
+  font-size: 10px;
+}
+.origin-recognition {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.recognition-card {
+  min-height: 200px;
+  padding: 36px 5%;
+  display: grid;
+  grid-template-columns: minmax(130px, 0.65fr) 1fr;
+  align-items: center;
+  gap: 28px;
+}
+.recognition-card + .recognition-card {
+  border-left: 1px solid var(--line);
+}
+.recognition-card img {
+  width: 100%;
+  max-height: 115px;
+  object-fit: contain;
+}
+.recognition-card .eyebrow {
+  font-size: 7px;
+  letter-spacing: 1.5px;
+}
+.recognition-card p {
+  font-size: 11px;
+  line-height: 1.7;
+  margin: 10px 0;
+}
+.recognition-card a {
+  color: var(--ochre);
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+.origin-credit-note {
+  margin: 16px 0 0 auto;
+  max-width: 700px;
+  text-align: right;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.6;
 }
 .collection-section {
   min-height: 100svh;
@@ -577,12 +697,20 @@ em {
   will-change: transform, opacity;
 }
 .product-card {
+  min-width: 0;
+}
+.product-card-trigger {
   padding: 0;
   text-align: left;
+  width: 100%;
   min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
 }
 .product-art {
   height: 310px;
@@ -595,19 +723,18 @@ em {
 .product-card-featured .product-art {
   background: #e5d9c4;
 }
-.product-art > svg,
 .product-art > img {
   position: absolute;
-  width: 111%;
-  max-width: none;
-  left: -5.5%;
-  top: 21%;
-  transition: transform 0.45s;
-  filter: drop-shadow(0 12px 10px #60472213);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.55s;
 }
-.product-card:hover .product-art > svg,
-.product-card:focus-visible .product-art > svg {
-  transform: translateY(-12px) scale(1.05) rotate(-4deg);
+.product-card:hover .product-art > img,
+.product-card-trigger:focus-visible .product-art > img {
+  transform: scale(1.045);
 }
 .product-card:hover .product-art {
   background: #e6dac5;
@@ -640,7 +767,8 @@ em {
     background 0.3s,
     color 0.3s;
 }
-.product-card:hover .product-open {
+.product-card:hover .product-open,
+.product-card-trigger:focus-visible .product-open {
   background: var(--cocoa);
   color: var(--paper);
 }
@@ -664,6 +792,16 @@ em {
   gap: 18px;
   align-items: center;
   margin-top: 20px;
+}
+.product-photo-source {
+  display: inline-block;
+  margin-top: 13px;
+  font-size: 7px;
+  letter-spacing: 0.75px;
+  line-height: 1.5;
+  color: var(--ochre);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .collection-foot {
   display: flex;
@@ -836,10 +974,12 @@ em {
   will-change: transform, opacity;
   filter: drop-shadow(0 20px 13px #31221930);
 }
-.carousel-hat svg {
+.carousel-hat img {
+  display: block;
   width: 100%;
-  height: auto;
-  overflow: visible;
+  height: clamp(170px, 22vw, 320px);
+  object-fit: cover;
+  object-position: center;
 }
 .carousel-controls {
   position: absolute;
@@ -862,6 +1002,15 @@ em {
   font-size: 31px;
   line-height: 1.2;
   margin: 10px 0 16px;
+}
+.carousel-photo-source {
+  display: inline-block;
+  font-size: 7px;
+  letter-spacing: 0.9px;
+  color: var(--paper);
+  opacity: 0.72;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .carousel-controls .eyebrow {
   font-size: 8px;
@@ -958,10 +1107,20 @@ em {
   transform: rotate(-8deg);
   will-change: transform;
 }
-.closing-hat svg {
+.closing-hat img {
   width: 100%;
   height: auto;
+  mix-blend-mode: multiply;
   filter: drop-shadow(0 20px 20px #60411a22);
+}
+.closing-photo-source {
+  position: absolute;
+  z-index: 4;
+  bottom: 29px;
+  left: 5%;
+  color: var(--muted);
+  font-size: 7px;
+  letter-spacing: 0.9px;
 }
 .closing-bottom {
   position: absolute;
@@ -1059,11 +1218,13 @@ dialog::backdrop {
   position: relative;
   overflow: hidden;
 }
-.dialog-visual > svg {
-  width: 120%;
+.dialog-visual > img {
+  width: 112%;
+  height: 320px;
   max-width: none;
-  margin-left: -10%;
-  transform: rotate(-9deg);
+  margin-left: -6%;
+  object-fit: cover;
+  transform: rotate(-3deg);
 }
 .dialog-visual > .eyebrow {
   font-size: 8px;
@@ -1286,9 +1447,7 @@ dialog::backdrop {
   .product-art {
     height: 250px;
   }
-  .product-art > svg {
-    top: 27%;
-  }
+
   .collection-grid {
     gap: 15px;
   }
@@ -1416,6 +1575,11 @@ dialog::backdrop {
   .hero-product-inner {
     transform: rotate(-9deg);
   }
+  .hero-photo-credit {
+    right: 4%;
+    bottom: -13px;
+    font-size: 5px;
+  }
   .hero-side-left {
     top: 69%;
     left: 7%;
@@ -1473,6 +1637,51 @@ dialog::backdrop {
     padding: 0 6% 40px;
     min-height: 900px;
   }
+  .origin-story {
+    padding: 0 6% 50px;
+  }
+  .origin-story-main {
+    display: block;
+    padding: 56px 0 60px;
+  }
+  .origin-landscape {
+    height: min(110vw, 420px);
+  }
+  .origin-copy {
+    padding: 48px 3px 0;
+  }
+  .origin-copy h2 {
+    font-size: 67px;
+  }
+  .origin-copy p {
+    font-size: 11px;
+  }
+  .origin-recognition {
+    display: block;
+  }
+  .recognition-card {
+    min-height: 0;
+    grid-template-columns: 120px 1fr;
+    gap: 18px;
+    padding: 24px 0;
+  }
+  .recognition-card + .recognition-card {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .recognition-card img {
+    max-height: 90px;
+  }
+  .recognition-card p {
+    font-size: 9px;
+  }
+  .recognition-card a {
+    font-size: 6px;
+  }
+  .origin-credit-note {
+    text-align: left;
+    font-size: 7px;
+  }
   .craft-intro {
     padding: 65px 0 80px;
   }
@@ -1521,18 +1730,22 @@ dialog::backdrop {
   }
   .editorial-card figcaption {
     font-size: 8px;
-    gap: 12px;
-    padding: 32px 16px 18px;
-    letter-spacing: 0.8px;
+    gap: 8px;
+    padding: 42px 13px 18px;
+    letter-spacing: 0.65px;
+    flex-wrap: wrap;
+  }
+  .editorial-card figcaption a {
+    width: 100%;
+    margin-left: 25px;
+    font-size: 6px;
   }
   .center-card-label {
     font-size: 8px;
     top: 22px;
     left: 22px;
   }
-  .center-card > svg {
-    top: 27%;
-  }
+
   .editorial-controls {
     display: flex;
     align-items: center;
@@ -1600,11 +1813,7 @@ dialog::backdrop {
   .product-art {
     height: 210px;
   }
-  .product-art > svg {
-    top: 28%;
-    width: 112%;
-    left: -6%;
-  }
+
   .product-number {
     font-size: 7px;
     left: 12px;
@@ -1720,6 +1929,9 @@ dialog::backdrop {
   .carousel-section {
     height: 180svh;
     min-height: 1300px;
+  }
+  .carousel-hat img {
+    height: clamp(150px, 48vw, 230px);
   }
   .carousel-stage {
     padding: 22px 6% 0;
@@ -1873,12 +2085,14 @@ dialog::backdrop {
     height: 260px;
     padding: 22px;
   }
-  .dialog-visual > svg {
+  .dialog-visual > img {
     position: absolute;
     width: 84%;
-    left: 18%;
+    height: 180px;
+    left: 8%;
     top: 12%;
     max-height: 220px;
+    margin: 0;
   }
   .visual-note {
     position: relative;

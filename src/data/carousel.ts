@@ -6,7 +6,7 @@ export const carouselProducts: Product[] = [
     ...products[0],
     id: "heritage",
     name: "El arte de lo natural",
-    svgVariant: "hero",
+    visualVariant: "hero",
   },
 ];
 

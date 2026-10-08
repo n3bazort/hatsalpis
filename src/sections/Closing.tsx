@@ -10,7 +10,7 @@ export function Closing() {
       aria-labelledby="closing-title"
     >
       <div className="section-topline">
-        <span>04 / TU PRÓXIMA HISTORIA</span>
+        <span>05 / TU PRÓXIMA HISTORIA</span>
         <a href="#inicio">
           VOLVER AL ORIGEN <ArrowUpRight size={13} />
         </a>
@@ -40,9 +40,12 @@ export function Closing() {
       <div className="closing-hat">
         <ProductVisual
           variant="hero"
-          alt="Sombrero Montecristi de paja toquilla ilustrado"
+          alt="Artesano trabajando el ala de un sombrero Montecristi"
         />
       </div>
+      <a className="closing-photo-source" href="https://montecristicreativa.org/wp-content/uploads/2026/05/10ST200341-scaled.jpg" target="_blank" rel="noreferrer">
+        FOTO: MONTECRISTI CIUDAD CREATIVA ↗
+      </a>
       <div className="closing-bottom">
         <span>
           DE MONTECRISTI

@@ -1,6 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
 import { EditorialGallery } from "../components/EditorialGallery";
-import { ProductVisual } from "../components/ProductVisual";
 import type { InfoTopic } from "../components/Dialogs";
 
 export function Craft({ onTopic }: { onTopic: (topic: InfoTopic) => void }) {
@@ -11,76 +10,43 @@ export function Craft({ onTopic }: { onTopic: (topic: InfoTopic) => void }) {
       aria-labelledby="craft-title"
     >
       <div className="section-topline">
-        <span>01 / EL OFICIO</span>
-        <span>LO EXTRAORDINARIO TOMA TIEMPO</span>
+        <span>02 / EL OFICIO</span>
+        <span>DEL CULTIVO A LA PIEZA TERMINADA.</span>
       </div>
       <div className="craft-intro reveal">
-        <span className="eyebrow">NO SE FABRICA. SE TEJE.</span>
+        <span className="eyebrow">UN OFICIO QUE PASA DE MANO EN MANO.</span>
         <h2 id="craft-title">
-          El lujo está
+          Cada hilo lleva
           <br />
-          en el <em>detalle.</em>
+          una <em>historia.</em>
         </h2>
         <p>
-          Manos que conocen el oficio. Fibras que guardan el sol.
-          <br className="desktop-break" /> Sombreros con una historia que
-          continúa contigo.
+          La fibra de paja toquilla pasa por manos que conocen su ritmo.
+          <br className="desktop-break" /> Así toma forma un sombrero hecho en
+          Montecristi.
         </p>
       </div>
       <EditorialGallery>
         <figure className="editorial-card hands-card">
-          <img
-            src={`${import.meta.env.BASE_URL}images/weaving-hands.svg`}
-            alt="Ilustración del trabajo artesanal de tejido de paja toquilla"
-            loading="lazy"
-          />
-          <figcaption>
-            <span>01</span> EL SABER DE LAS MANOS
-          </figcaption>
+          <img src={`${import.meta.env.BASE_URL}images/fiber-preparation.webp`} alt="Preparación de fibras de paja toquilla en Montecristi" loading="lazy" />
+          <figcaption><span>01</span><strong>PREPARAR LA FIBRA</strong><a href="https://montecristicreativa.org/wp-content/uploads/2026/05/8ST208459.webp" target="_blank" rel="noreferrer">FUENTE ↗</a></figcaption>
         </figure>
         <figure className="editorial-card weave-card">
-          <img
-            src={`${import.meta.env.BASE_URL}images/weave-detail.svg`}
-            alt="Estudio ilustrado de la textura de la fibra natural tejida"
-            loading="lazy"
-          />
-          <figcaption>
-            <span>02</span> FIBRA CON ALMA
-          </figcaption>
+          <img src={`${import.meta.env.BASE_URL}images/artesanas-tejiendo.jpg`} alt="Artesanas trabajando en un taller de tejido en Montecristi" loading="lazy" />
+          <figcaption><span>02</span><strong>EL SABER DE LAS MANOS</strong><a href="https://www.sombreromontecristi.org/wp-content/uploads/2026/05/3_artesanas-tejiendo_2-scaled.jpg" target="_blank" rel="noreferrer">FUENTE ↗</a></figcaption>
         </figure>
         <figure className="editorial-card center-card">
-          <span className="center-card-label">
-            EL ORIGINAL
-            <br />
-            MONTECRISTI
-          </span>
-          <ProductVisual
-            variant="classic"
-            alt="Estudio ilustrado de un sombrero artesanal Montecristi"
-          />
-          <figcaption>
-            <span>03</span> UNA FORMA DE SER
-          </figcaption>
+          <img src={`${import.meta.env.BASE_URL}images/weaving-hands.webp`} alt="Primer plano de manos entrecruzando la fibra" loading="lazy" />
+          <span className="center-card-label">EL TEJIDO<br />DE CERCA</span>
+          <figcaption><span>03</span><strong>FIBRA HILO A HILO</strong><a href="https://www.sombreromontecristi.org/wp-content/uploads/2026/05/9ST205093_result.webp" target="_blank" rel="noreferrer">FUENTE ↗</a></figcaption>
         </figure>
         <figure className="editorial-card coastal-card">
-          <img
-            src={`${import.meta.env.BASE_URL}images/coastal-study.svg`}
-            alt="Ilustración editorial de una persona con sombrero de ala ancha"
-            loading="lazy"
-          />
-          <figcaption>
-            <span>04</span> HECHO PARA ACOMPAÑARTE
-          </figcaption>
+          <img src={`${import.meta.env.BASE_URL}images/finishing-hat.webp`} alt="Manos dando el acabado final al ala de un sombrero" loading="lazy" />
+          <figcaption><span>04</span><strong>EL REMATE</strong><a href="https://montecristicreativa.org/wp-content/uploads/2026/05/6ST207998.webp" target="_blank" rel="noreferrer">FUENTE ↗</a></figcaption>
         </figure>
         <figure className="editorial-card packaging-card">
-          <img
-            src={`${import.meta.env.BASE_URL}images/packaging.svg`}
-            alt="Estudio ilustrado de una caja de sombrero artesanal"
-            loading="lazy"
-          />
-          <figcaption>
-            <span>05</span> CADA DETALLE CUENTA
-          </figcaption>
+          <img src={`${import.meta.env.BASE_URL}images/finished-hat.webp`} alt="Artesano mostrando un sombrero ya terminado" loading="lazy" />
+          <figcaption><span>05</span><strong>UNA PIEZA CON HISTORIA</strong><a href="https://www.sombreromontecristi.org/wp-content/uploads/2026/05/1ST209505_result.webp" target="_blank" rel="noreferrer">FUENTE ↗</a></figcaption>
         </figure>
       </EditorialGallery>
       <div className="craft-bottom">

@@ -64,7 +64,7 @@ export function Header() {
         </div>
         <nav>
           {[
-            ["01", "El origen", "#inicio"],
+            ["01", "Tierra y legado", "#origen"],
             ["02", "El oficio", "#artesania"],
             ["03", "Los sombreros", "#coleccion"],
             ["04", "Encuentra el tuyo", "#contacto"],
