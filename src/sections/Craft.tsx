@@ -28,8 +28,8 @@ export function Craft({ onTopic }: { onTopic: (topic: InfoTopic) => void }) {
       </div>
       <EditorialGallery>
         <figure className="editorial-card hands-card">
-          <img src={`${import.meta.env.BASE_URL}images/fiber-preparation.webp`} alt="Preparación de fibras de paja toquilla en Montecristi" loading="lazy" />
-          <figcaption><span>01</span><strong>PREPARAR LA FIBRA</strong><a href="https://montecristicreativa.org/wp-content/uploads/2026/05/8ST208459.webp" target="_blank" rel="noreferrer">FUENTE ↗</a></figcaption>
+          <img src={`${import.meta.env.BASE_URL}images/fiber-preparation.webp`} alt="Artesano junto a sombreros de paja toquilla en elaboración" loading="lazy" />
+          <figcaption><span>01</span><strong>EL OFICIO TOMA FORMA</strong><a href="https://montecristicreativa.org/wp-content/uploads/2026/05/8ST208459.webp" target="_blank" rel="noreferrer">FUENTE ↗</a></figcaption>
         </figure>
         <figure className="editorial-card weave-card">
           <img src={`${import.meta.env.BASE_URL}images/artesanas-tejiendo.jpg`} alt="Artesanas trabajando en un taller de tejido en Montecristi" loading="lazy" />

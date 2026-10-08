@@ -164,7 +164,6 @@ export function useScrollScenes() {
           });
         }
 
-        addVisibilityTimeline(".craft-section", ".editorial-strip");
         addVisibilityTimeline(".collection-section", ".collection-grid");
         gsap.from(".brand-panel", {
           y: 140,
@@ -199,51 +198,22 @@ export function useScrollScenes() {
         );
       });
 
-      // On mobile, native horizontal scrolling owns the gallery's position.
-      mm.add(
-        "(min-width: 701px) and (prefers-reduced-motion: no-preference)",
-        () => {
-          gsap.fromTo(
-            ".editorial-strip",
-            { y: 110, x: 35 },
-            {
-              y: -65,
-              x: -35,
-              ease: "none",
-              scrollTrigger: {
-                trigger: ".craft-section",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1,
-              },
-            },
-          );
-        },
-      );
-
-      const hats = gsap.utils.toArray<HTMLElement>(".carousel-hat");
+      const frames = gsap.utils.toArray<HTMLElement>(".story-frame");
       const renderOrbit = (progress: number) => {
         const position = progress * (carouselStories.length - 1);
-        const width = window.innerWidth;
-        const gap = width * (width < 700 ? 0.55 : 0.24);
-        const reduced = window.matchMedia(
-          "(prefers-reduced-motion: reduce)",
-        ).matches;
-        hats.forEach((hat, i) => {
-          const distance = i - position;
-          const proximity = Math.min(Math.abs(distance), 2);
-          gsap.set(hat, {
-            x: distance * gap,
-            y: proximity * (width < 700 ? -25 : -40),
-            xPercent: -50,
-            yPercent: -50,
-            scale: 1.18 - proximity * 0.18,
-            rotation: reduced ? 0 : distance * 12,
-            opacity: Math.abs(distance) > 2.9 ? 0 : 1 - proximity * 0.09,
-            zIndex: Math.round(10 - proximity * 3),
+        const next = Math.round(position);
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        frames.forEach((frame, index) => {
+          const distance = index - position;
+          const proximity = Math.min(Math.abs(distance), 1);
+          gsap.set(frame, {
+            opacity: reduced ? Number(index === next) : 1 - proximity,
+            scale: reduced ? 1 : 1 + proximity * 0.08,
+            y: reduced ? 0 : distance * 35,
+            filter: reduced ? "none" : `blur(${proximity * 5}px)`,
+            zIndex: index === next ? 2 : 1,
           });
         });
-        const next = Math.round(position);
         if (next !== activeRef.current) {
           activeRef.current = next;
           setActive(next);

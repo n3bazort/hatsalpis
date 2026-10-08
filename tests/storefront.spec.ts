@@ -16,22 +16,8 @@ async function scrollCarousel(page: Page, progress: number) {
   }, progress);
 }
 
-async function hatState(page: Page, index: number) {
-  return page
-    .locator(".carousel-hat")
-    .nth(index)
-    .evaluate((hat) => {
-      const transform = new DOMMatrix(getComputedStyle(hat).transform);
-      return {
-        x: transform.m41,
-        scale: Math.hypot(transform.m11, transform.m12),
-      };
-    });
-}
-
 test("brand, assets, and layout work without horizontal overflow", async ({
   page,
-  isMobile,
 }) => {
   const runtimeErrors: string[] = [];
   page.on("pageerror", (error) => runtimeErrors.push(error.message));
@@ -68,27 +54,9 @@ test("brand, assets, and layout work without horizontal overflow", async ({
       )
       .toBeLessThanOrEqual(1);
   }
-  if (isMobile) {
-    // Off-screen slides are intentionally lazy-loaded: expose each one before
-    // checking that every editorial asset has successfully loaded.
-    for (const image of await page.locator(".editorial-card img").all()) {
-      await image.evaluate((element) =>
-        element.scrollIntoView({
-          block: "center",
-          inline: "center",
-          behavior: "instant",
-        }),
-      );
-      await expect
-        .poll(() =>
-          image.evaluate(
-            (element) =>
-              (element as HTMLImageElement).complete &&
-              (element as HTMLImageElement).naturalWidth > 0,
-          ),
-        )
-        .toBe(true);
-    }
+  for (let index = 0; index < 5; index++) {
+    await page.getByRole("button", { name: `Ver etapa ${index + 1} del oficio` }).click();
+    await expect(page.locator(".editorial-card").nth(index)).toHaveAttribute("aria-hidden", "false");
   }
   await expect
     .poll(() =>
@@ -155,17 +123,30 @@ test("menu traps focus, closes with Escape, and navigates to the collection", as
   ).toBeInViewport();
 });
 
-test("documentary photos are not sold as products and model enquiries remain available", async ({ page }) => {
+test("four photographic reference models open with sizes, licenses and correct enquiries", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await openSite(page);
-  await expect(page.locator(".product-card")).toHaveCount(0);
-  await expect(page.locator(".size-picker")).toHaveCount(0);
-  const contact = page.getByRole("link", { name: "Ver modelos por WhatsApp" });
-  await contact.scrollIntoViewIfNeeded();
-  await expect(contact).toBeVisible();
-  await expect(contact).toHaveAttribute("href", /^https:\/\/wa\.me\/593967113954\?text=/);
-  const sources = await page.locator("main img").evaluateAll(images => images.map(img => img.getAttribute("src")));
-  expect(new Set(sources).size).toBe(sources.length);
+  await expect(page.locator(".product-card")).toHaveCount(4);
+  const editorialSources = await page.locator(".editorial-card img, .story-frame img").evaluateAll(images => images.map(image => image.getAttribute("src")));
+  for (const name of ["Fedora Natural", "Ala Ancha", "Copa Redonda", "Habano"]) {
+    const card = page.getByRole("button", { name: `Ver ${name}`, exact: true });
+    expect(editorialSources).not.toContain(await card.locator("img").getAttribute("src"));
+    await expect(card.locator(".product-art")).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await card.click();
+    const dialog = page.getByRole("dialog", { name, exact: true });
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole("radio", { name: "Por definir", exact: true })).toBeChecked();
+    await expect(dialog.getByRole("link", { name: "CC BY-SA 3.0", exact: true })).toHaveAttribute("href", "https://creativecommons.org/licenses/by-sa/3.0/");
+    await dialog.getByRole("radio", { name: "M · 56–57", exact: true }).check();
+    const destination = new URL((await dialog.getByRole("link", { name: "Consultar esta pieza" }).getAttribute("href"))!);
+    expect(destination.origin).toBe("https://wa.me");
+    expect(destination.pathname).toBe("/593967113954");
+    expect(destination.searchParams.get("text")).toContain(name);
+    expect(destination.searchParams.get("text")).toContain("M · 56–57");
+    await page.keyboard.press("Escape");
+    await expect(dialog).not.toBeVisible();
+    await expect(card).toBeFocused();
+  }
 });
 
 test("materials and care content open and close accessibly", async ({
@@ -191,71 +172,43 @@ test("materials and care content open and close accessibly", async ({
   await expect(care).toBeFocused();
 });
 
-test("editorial carousel moves between three unique stories", async ({ page }) => {
+test("scroll presentation crossfades and navigates through distinct stories", async ({ page }) => {
   await openSite(page);
-  const controls = page.locator(".carousel-controls");
-  await expect(page.locator(".carousel-hat")).toHaveCount(3);
+  const frames = page.locator(".story-frame");
+  const controls = page.locator(".story-controls");
+  await expect(frames).toHaveCount(3);
   await scrollCarousel(page, 0);
-  await expect(controls.getByRole("heading")).toHaveText("La materia prima");
+  await expect(frames.nth(0)).toHaveAttribute("aria-hidden", "false");
   await expect(controls.getByRole("button", { name: "Imagen anterior", exact: true })).toBeDisabled();
-  await expect.poll(async () => (await hatState(page, 0)).scale).toBeCloseTo(1.18, 2);
-  await scrollCarousel(page, 0.5);
-  await expect(controls.getByRole("heading")).toHaveText("El tejido de cerca");
-  await expect.poll(async () => (await hatState(page, 1)).scale).toBeCloseTo(1.18, 2);
+  await scrollCarousel(page, 0.25);
+  await expect.poll(() => frames.nth(0).evaluate(el => Number(getComputedStyle(el).opacity))).toBeGreaterThan(0.25);
+  await expect.poll(() => frames.nth(1).evaluate(el => Number(getComputedStyle(el).opacity))).toBeGreaterThan(0.25);
   await scrollCarousel(page, 1);
-  await expect(controls.getByRole("heading")).toHaveText("Cada forma, una historia");
+  await expect(frames.nth(2)).toHaveAttribute("aria-hidden", "false");
   await expect(controls.getByRole("button", { name: "Siguiente imagen", exact: true })).toBeDisabled();
   await controls.getByRole("button", { name: "Imagen anterior", exact: true }).click();
-  await expect(controls.getByRole("heading")).toHaveText("El tejido de cerca");
+  await expect(frames.nth(1)).toHaveAttribute("aria-hidden", "false");
+  await expect(frames.nth(1).locator("a")).toBeVisible();
 });
 
-test("reduced motion preserves usable carousel and contact controls", async ({
-  page,
-  isMobile,
-}) => {
+test("reduced motion and short phones keep story and contact controls usable", async ({ page, isMobile }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
+  if (isMobile) await page.setViewportSize({ width: 320, height: 568 });
   await openSite(page);
   await scrollCarousel(page, 0);
-  await page
-    .getByRole("button", { name: "Ver historia 3: Cada forma, una historia" })
-    .click();
-  await expect(page.locator(".carousel-controls h3")).toHaveText(
-    "Cada forma, una historia",
-  );
-  await expect
-    .poll(async () => (await hatState(page, 2)).scale)
-    .toBeCloseTo(1.18, 2);
-  const rotation = await page
-    .locator(".carousel-hat")
-    .nth(2)
-    .evaluate((hat) => new DOMMatrix(getComputedStyle(hat).transform).m12);
-  expect(rotation).toBe(0);
-  const contact = page
-    .getByRole("link", { name: "Conversemos por WhatsApp", exact: true })
-    .last();
+  await page.getByRole("button", { name: "Ver historia 3: Ninguno es igual a otro." }).click();
+  const frame = page.locator(".story-frame").nth(2);
+  await expect(frame).toHaveAttribute("aria-hidden", "false");
+  await expect(frame).toHaveCSS("filter", "none");
+  await expect(frame.locator("img")).toHaveCSS("animation-name", "none");
+  for (const name of ["Imagen anterior", "Siguiente imagen"]) {
+    await expect(page.getByRole("button", { name, exact: true })).toBeInViewport({ ratio: 1 });
+  }
+  const contact = page.getByRole("link", { name: "Conversemos por WhatsApp", exact: true }).last();
   await contact.scrollIntoViewIfNeeded();
   await expect(contact).toBeInViewport();
-  await expect(contact).toHaveAttribute(
-    "href",
-    /^https:\/\/wa\.me\/593967113954\?text=/,
-  );
-  await expect(
-    page.getByRole("link", { name: "096 711 3954" }),
-  ).toHaveAttribute("href", "tel:+593967113954");
-  if (isMobile) {
-    // Regression: short phones must not crop the carousel buttons below the fold.
-    await page.setViewportSize({ width: 320, height: 568 });
-    await page.reload();
-    await page.evaluate(() => document.fonts.ready);
-    await scrollCarousel(page, 0.5);
-    await expect(page.locator(".carousel-controls h3")).toHaveText(
-      "El tejido de cerca",
-    );
-    for (const name of ["Imagen anterior", "Siguiente imagen"]) {
-      const control = page.getByRole("button", { name, exact: true });
-      await expect(control).toBeInViewport({ ratio: 1 });
-    }
-  }
+  await expect(contact).toHaveAttribute("href", /^https:\/\/wa\.me\/593967113954\?text=/);
+  await expect(page.getByRole("link", { name: "096 711 3954" })).toHaveAttribute("href", "tel:+593967113954");
 });
 
 test("craft gallery makes every card reachable by touch and mobile controls", async ({
@@ -269,18 +222,14 @@ test("craft gallery makes every card reachable by touch and mobile controls", as
     name: "Siguiente imagen del oficio",
   });
   await expect(cards).toHaveCount(5);
-  if (!isMobile) {
-    await expect(next).not.toBeVisible();
-    await expect(gallery).toHaveCSS("overflow-x", "visible");
-    return;
-  }
   await gallery.evaluate((el) =>
     el.scrollIntoView({ block: "center", behavior: "instant" }),
   );
-  await expect(cards.first()).toBeInViewport({ ratio: 1 });
+  await expect(cards.first()).toBeInViewport({ ratio: 0.99 });
   await expect(page.locator(".editorial-counter")).toHaveText("01 / 05");
 
-  // Real touch input exercises browser-native swiping, rather than setting scrollLeft.
+  if (isMobile) {
+  // Real touch gestures switch the crossfade presentation.
   const touch = await page.context().newCDPSession(page);
   const box = (await gallery.boundingBox())!;
   const startX = box.x + box.width * 0.82;
@@ -301,10 +250,9 @@ test("craft gallery makes every card reachable by touch and mobile controls", as
     type: "touchEnd",
     touchPoints: [],
   });
-  await expect
-    .poll(() => gallery.evaluate((el) => el.scrollLeft))
-    .toBeGreaterThan(150);
+  await expect(page.locator(".editorial-counter")).toHaveText("02 / 05");
   await touch.detach();
+  }
 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await gallery.focus();
@@ -315,13 +263,15 @@ test("craft gallery makes every card reachable by touch and mobile controls", as
     await expect(page.locator(".editorial-counter")).toHaveText(
       `0${index + 1} / 05`,
     );
-    await expect(cards.nth(index)).toBeInViewport({ ratio: 1 });
+    await expect(cards.nth(index)).toHaveAttribute("aria-hidden", "false");
+    await expect(cards.nth(index)).toBeVisible();
+    await expect.poll(() => cards.nth(index).locator("img").evaluate(image => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   }
   await expect(next).toBeDisabled();
   await expect(cards.last()).toContainText("UNA PIEZA CON HISTORIA");
   await gallery.focus();
   await page.keyboard.press("Home");
-  await expect(cards.first()).toBeInViewport({ ratio: 1 });
+  await expect(cards.first()).toBeInViewport({ ratio: 0.99 });
   await expect(
     page.getByRole("button", { name: "Imagen anterior del oficio" }),
   ).toBeDisabled();

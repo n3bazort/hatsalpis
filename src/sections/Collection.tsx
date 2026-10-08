@@ -1,6 +1,6 @@
 import { ArrowUpRight, Plus } from "lucide-react";
 import { ProductVisual } from "../components/ProductVisual";
-import { products, whatsappUrl, type Product } from "../data/products";
+import { products, type Product } from "../data/products";
 
 export function Collection({
   onSelect,
@@ -27,22 +27,12 @@ export function Collection({
           </h2>
         </div>
         <p>
-          Cada tejido es distinto.
+          Cuatro estilos. Tu forma de llevarlos.
           <br />
-          Consulta los modelos disponibles.
+          Elige una referencia y consulta tu pieza.
         </p>
       </div>
       <div className="collection-grid">
-        {products.length === 0 && (
-          <div className="collection-consultation">
-            <span className="eyebrow">UNA ELECCIÓN PERSONAL</span>
-            <h3>Encuentra <em>el tuyo.</em></h3>
-            <p>Cuéntanos qué estilo buscas. Te compartimos los modelos, las medidas y los precios disponibles en tienda.</p>
-            <a className="button button-solid" href={whatsappUrl()} target="_blank" rel="noreferrer">
-              Ver modelos por WhatsApp <ArrowUpRight size={18} />
-            </a>
-          </div>
-        )}
         {products.map((p, index) => (
           <article key={p.id} className={`product-card ${index === 0 ? "product-card-featured" : ""}`}>
             <button
@@ -69,15 +59,17 @@ export function Collection({
                 </span>
               </div>
             </button>
-            <a className="product-photo-source" href={p.photoSource} target="_blank" rel="noreferrer">
-              FOTO: {p.photoCredit} ↗
-            </a>
+            <div className="product-photo-source">
+              <a href={p.photoSource} target="_blank" rel="noreferrer">Foto: {p.photoCredit}</a>
+              <span> · </span><a href={p.photoLicenseUrl} target="_blank" rel="noreferrer">{p.photoLicense}</a>
+              <small>Fondo adaptado a blanco</small>
+            </div>
           </article>
         ))}
       </div>
       <div className="collection-foot">
         <span>HECHOS A MANO. NUNCA EXACTAMENTE IGUALES.</span>
-        <span>Modelos y tallas disponibles por WhatsApp</span>
+        <span>Modelos de referencia · confirma pieza, talla y precio</span>
       </div>
     </section>
   );
