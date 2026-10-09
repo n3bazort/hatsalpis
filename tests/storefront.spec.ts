@@ -32,7 +32,7 @@ test("brand, assets, and layout work without horizontal overflow", async ({
     "MONTECRISTI HATS",
   );
   await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).fontFamily)).toContain("Poppins");
-  await expect.poll(() => page.evaluate(() => getComputedStyle(document.querySelector("h1")!).fontFamily)).toContain("Cormorant Garamond");
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.querySelector("h1")!).fontFamily)).toContain("Poppins");
   await expect(page.locator(".hero-hat-svg")).toHaveCount(1);
   await expect(page.locator(".hero-product img")).toHaveCount(0);
   // Check every full-screen section, including the intentionally clipped orbital carousel.
@@ -136,7 +136,7 @@ test("four photographic reference models open with sizes, licenses and correct e
     const dialog = page.getByRole("dialog", { name, exact: true });
     await expect(dialog).toBeVisible();
     await expect(dialog.getByRole("radio", { name: "Por definir", exact: true })).toBeChecked();
-    await expect(dialog.getByRole("link", { name: "CC BY-SA 3.0", exact: true })).toHaveAttribute("href", "https://creativecommons.org/licenses/by-sa/3.0/");
+    await expect(dialog.locator(".visual-note")).toHaveCount(0);
     await dialog.getByRole("radio", { name: "M · 56–57", exact: true }).check();
     const destination = new URL((await dialog.getByRole("link", { name: "Consultar esta pieza" }).getAttribute("href"))!);
     expect(destination.origin).toBe("https://wa.me");

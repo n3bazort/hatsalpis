@@ -46,11 +46,6 @@ export function ProductDialog({
               src={product.image}
               alt={`Fotografía real de ${product.name}`}
             />
-            <div className="visual-note">
-              <a href={product.photoSource} target="_blank" rel="noreferrer">Foto: {product.photoCredit}</a>
-              <span> · </span><a href={product.photoLicenseUrl} target="_blank" rel="noreferrer">{product.photoLicense}</a>
-              <small>Fondo adaptado a blanco</small>
-            </div>
           </div>
           <div className="dialog-details">
             <span className="eyebrow">{product.tag} — MODELO DE REFERENCIA</span>

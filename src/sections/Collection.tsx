@@ -59,11 +59,6 @@ export function Collection({
                 </span>
               </div>
             </button>
-            <div className="product-photo-source">
-              <a href={p.photoSource} target="_blank" rel="noreferrer">Foto: {p.photoCredit}</a>
-              <span> · </span><a href={p.photoLicenseUrl} target="_blank" rel="noreferrer">{p.photoLicense}</a>
-              <small>Fondo adaptado a blanco</small>
-            </div>
           </article>
         ))}
       </div>

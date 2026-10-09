@@ -46,9 +46,10 @@ export default function App() {
           </span>
         </a>
         <span>Hecho con tiempo. Para durar en tu historia.</span>
-        <a href="#origen">
-          ORIGEN Y RECONOCIMIENTOS <ArrowUpRight size={14} />
-        </a>
+        <nav className="footer-links" aria-label="Información de la web">
+          <a href="#origen">ORIGEN Y RECONOCIMIENTOS <ArrowUpRight size={14} /></a>
+          <a href={`${import.meta.env.BASE_URL}creditos-fotograficos.html`}>Créditos fotográficos</a>
+        </nav>
       </footer>
       <ProductDialog product={selected} onClose={() => setSelected(null)} />
       <InfoDialog topic={topic} onClose={() => setTopic(null)} />
