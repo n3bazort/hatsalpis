@@ -1,6 +1,6 @@
 import { ArrowUpRight, MoveUpRight } from "lucide-react";
 import { ProductVisual } from "../components/ProductVisual";
-import { whatsappUrl } from "../data/products";
+import { phone, whatsappUrl } from "../data/products";
 
 export function Closing() {
   return (
@@ -52,8 +52,8 @@ export function Closing() {
           <br />
           PARA EL MUNDO.
         </span>
-        <a href="tel:+593967113954">
-          096 711 3954 <MoveUpRight size={15} />
+        <a href={`tel:${phone}`}>
+          +593 96 711 3954 <MoveUpRight size={15} />
         </a>
       </div>
     </section>

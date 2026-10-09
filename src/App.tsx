@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Facebook } from "lucide-react";
 import { Header } from "./components/Header";
 import { HatMark } from "./components/HatMark";
 import {
@@ -47,6 +47,7 @@ export default function App() {
         </a>
         <span>Hecho con tiempo. Para durar en tu historia.</span>
         <nav className="footer-links" aria-label="Información de la web">
+          <a href="https://www.facebook.com/share/19ThiNGK2b/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"><Facebook size={17} aria-hidden="true" /> Facebook <ArrowUpRight size={14} aria-hidden="true" /></a>
           <a href="#origen">ORIGEN Y RECONOCIMIENTOS <ArrowUpRight size={14} /></a>
           <a href={`${import.meta.env.BASE_URL}creditos-fotograficos.html`}>Créditos fotográficos</a>
         </nav>
