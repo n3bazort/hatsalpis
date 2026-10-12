@@ -20,6 +20,9 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Verify responsive layouts and storefront before publishing
+        run: npm run test:e2e
       - run: npm run build
       - name: Configure authenticated SSH
         env:

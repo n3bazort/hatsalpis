@@ -5,6 +5,7 @@ import "@fontsource/poppins/latin-500.css";
 import "@fontsource/poppins/latin-600.css";
 import "@fontsource/poppins/latin-700.css";
 import "./styles.css";
+import "./hero-responsive.css";
 import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

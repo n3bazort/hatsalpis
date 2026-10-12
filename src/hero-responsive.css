@@ -1,0 +1,49 @@
+/* Hero geometry has one owner. Size against width AND height; leave room for
+   the header, idle rotation/translation and the collection link. On very short
+   windows allow vertical scrolling instead of clipping essential content. */
+:root { --header-height: clamp(60px, 9svh, 84px); }
+.site-header { height: var(--header-height); }
+.hero { height: 100svh; min-height: 540px; max-height: none; }
+.hero-kicker { top: calc(var(--header-height) + 22px); padding-inline: 6%; }
+.hero-copy { top: calc(var(--header-height) + 58px); left: 5%; right: 5%; }
+.hero h1 { font-size: min(9.7vw, 13svh, 150px); line-height: 1; }
+.hero-hats { font-size: 1.04em; margin-top: 10px; }
+.hero-product {
+  width: min(44vw, 60svh, 680px);
+  max-width: none;
+  left: 50%;
+  margin-left: calc(min(44vw, 60svh, 680px) / -2);
+  top: 40%;
+}
+.hero-side { top: 61%; font-size: clamp(11px, 1vw, 14px); }
+.hero-side-left { left: 7%; }
+.hero-side-right { right: 7%; top: 58%; }
+.handmade-seal { width: clamp(60px, 11svh, 96px); }
+.hero-side-right p { font-size: 11px; }
+.hero-bottom { bottom: clamp(18px, 4svh, 40px); }
+.hero-edition { top: calc(var(--header-height) + 24px); }
+@media (max-width: 700px) {
+  .hero-copy { top: calc(var(--header-height) + 66px); }
+  .hero h1 { font-size: 9.5vw; }
+  .hero-hats { font-size: 1.5em; margin-top: 12px; }
+  .hero-product {
+    width: min(82vw, 48svh);
+    margin-left: calc(min(82vw, 48svh) / -2);
+    top: 35%;
+  }
+  .hero-side { top: 70%; font-size: 11px; }
+  .hero-side-right { top: 69%; }
+  .hero-side-right p { font-size: 9px; }
+  .hero-side-left .eyebrow { font-size: 6px; margin-top: 8px; }
+  .mini-star { width: 22px; height: 22px; margin-bottom: 6px; }
+  .handmade-seal { width: 60px; }
+}
+@media (max-height: 650px) and (min-width: 701px) {
+  .brand-mark { width: 40px; height: 32px; }
+  .hero-side-left .eyebrow { margin-top: 8px; }
+  .mini-star { width: 22px; height: 22px; margin-bottom: 6px; }
+}
+@media (max-height: 539px) {
+  .hero h1 { font-size: min(9.5vw, 70px); }
+  .hero-product { width: min(65vw, 280px); margin-left: calc(min(65vw, 280px) / -2); }
+}

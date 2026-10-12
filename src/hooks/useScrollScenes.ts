@@ -23,6 +23,9 @@ export function useScrollScenes() {
         );
         let entranceComplete = false;
         let heroVisible = true;
+        const product = document.querySelector<HTMLElement>(".hero-product")!;
+        // Leave horizontal room for the rotated silhouette at the entrance peak.
+        const entranceScale = Math.min(1.65, (window.innerWidth - 32) / (product.offsetWidth * 1.25));
         const idleFloat = gsap.to(".hero-product-float", {
           x: 7,
           y: -18,
@@ -51,7 +54,7 @@ export function useScrollScenes() {
               immediateRender: false, ease: "expo.out" }, 0.42)
           .fromTo(".hero-product-inner",
             { opacity: 0, scale: 0.08, rotation: -75, y: 35 },
-            { opacity: 1, scale: 1.65, rotation: restingRotation + 22,
+            { opacity: 1, scale: entranceScale, rotation: restingRotation + 22,
               y: -65, duration: 0.42, ease: "expo.out" }, 0.44)
           .to(".hero-product-inner",
             { scale: 0.97, rotation: restingRotation - 4, y: 8,

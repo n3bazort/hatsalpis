@@ -208,7 +208,7 @@ test("reduced motion and short phones keep story and contact controls usable", a
   await contact.scrollIntoViewIfNeeded();
   await expect(contact).toBeInViewport();
   await expect(contact).toHaveAttribute("href", /^https:\/\/wa\.me\/593967113954\?text=/);
-  await expect(page.getByRole("link", { name: "096 711 3954" })).toHaveAttribute("href", "tel:+593967113954");
+  await expect(page.getByRole("link", { name: "+593 96 711 3954" })).toHaveAttribute("href", "tel:+593967113954");
 });
 
 test("craft gallery makes every card reachable by touch and mobile controls", async ({
